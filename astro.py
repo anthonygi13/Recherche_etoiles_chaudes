@@ -2,6 +2,10 @@
 # astro.py
 # projet S3
 
+
+"""equation de la ligne B3V pour un graphique u-g vs g-r : 0.9909 * x - 0.8901"""
+
+
 import re
 
 def lire_fichier(fichier):
