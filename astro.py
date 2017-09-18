@@ -10,8 +10,12 @@ def lire_fichier(fichier):
     fo = open(fichier, 'r')
     data = fo.read()
     fo.close()
+    x=0
     for i in data:
         if i == "\n":
             print("c bon il detecte les sauts à la ligne")
+            x+=1
+    print(x)
+
 
 lire_fichier("data_modifié.txt")
