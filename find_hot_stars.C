@@ -18,8 +18,8 @@ void find_hot_stars(){
 
     //ligne B3V au dessus de laquelle on veut recuperer les points, de la forme ax+b
 
-    Double_t a = 1.009;
-    Double_t b = 0.8985;
+    Double_t a = 0.9909;
+    Double_t b = -0.8901;
 
 
     //lit le fichier et crée des listes avec les données
