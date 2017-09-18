@@ -2,16 +2,51 @@
 # astro.py
 # projet S3
 
+import re
+
 def lire_fichier(fichier):
     """
     :param fichier: nom du fichier en chaine de caractere. Le fichier est trié par colonnes
-    :return: retourne listes qui correspondent chacune à une colonne du fichier
+    :return: retourne liste de listes qui correspondent chacune à une colonne du fichier
     """
+
+    nombre = re.compile('-?[0-9]+\.?[0-9]*')
     fo = open(fichier, 'r')
     data = fo.read()
     fo.close()
-    for i in data:
-        if i == "\n":
-            print("c bon il detecte les sauts à la ligne")
 
-lire_fichier("data_modifié.txt")
+    nb_colonne = 1
+    for char in data:
+        if char == "\n":
+            break
+        if char == "|":
+            nb_colonne += 1
+
+    tableau = []
+    for i in range(nb_colonne):
+        tableau.append([])
+    colonne_actuelle = 0
+    chaine = ""
+
+    for char in data:
+        print(colonne_actuelle)
+        if char == "|":
+            if nombre.fullmatch(chaine) is not None:
+                tableau[colonne_actuelle].append(float(chaine))
+            else:
+                tableau[colonne_actuelle].append(chaine)
+            chaine = ""
+            colonne_actuelle += 1
+        elif char == "\n":
+            if nombre.fullmatch(chaine) is not None:
+                tableau[colonne_actuelle].append(float(chaine))
+            else:
+                tableau[colonne_actuelle].append(chaine)
+            chaine = ""
+            colonne_actuelle = 0
+        elif char != " ":
+            chaine += char
+
+    return tableau
+
+
