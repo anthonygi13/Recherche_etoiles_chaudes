@@ -53,4 +53,17 @@ def lire_fichier(fichier):
 
     return tableau
 
+def B3V_fo(x, a, b):
+    return a * x + b
 
+def find_hot_stars(u_g, g_r, a, b, filename):
+    to_keep = []
+    for x, i in enumerate(g_r): #la y a moyen d ameliorer la rapidite je pense
+        if u_g[i] < B3V_fo(x, a, b):
+            to_keep.append(i)
+
+def write_new_file():
+    """ """
+
+def read_file_lines():
+    """ """
