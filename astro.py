@@ -10,8 +10,8 @@ import re
 
 def lire_fichier(fichier):
     """
-    :param fichier: nom du fichier en chaine de caractere. Le fichier est trié par colonnes
-    :return: retourne liste de listes qui correspondent chacune à une colonne du fichier
+    :param fichier: nom du fichier en chaine de caractere. Le fichier est trie par colonnes
+    :return: retourne liste de listes qui correspondent chacune a une colonne du fichier
     """
 
     nombre = re.compile('-?[0-9]+\.?[0-9]*')
@@ -54,16 +54,25 @@ def lire_fichier(fichier):
     return tableau
 
 def B3V_fo(x, a, b):
+    """
+    :param x: abcsisse du point de la ligne B3V dont on veut obtenir l'ordonnée
+    :param a: equation de la ligne B3V = a*x+b
+    :param b: equation de la ligne B3V = a*x+b
+    :return: ordonnée du point de la ligne B3V correspondant à l'abscisse x (dans un graphique u-g vs g-r)
+    """
     return a * x + b
 
-def find_hot_stars(u_g, g_r, a, b, filename):
+def find_hot_stars(u_g, g_r, a, b):
+    """
+    :param u_g: liste des valeurs de u-g
+    :param g_r: liste des valeurs de g-r
+    la valeur numero i de u_g et celle de g_r doivent correspondre a la meme etoile (celle qui est a la ligne i dans le fichier texte
+    :param a: equation de la ligne B3V = a*x+b
+    :param b: equation de la ligne B3V = a*x+b
+    :return: listes des numeros des lignes a garder (correspondant aux etoiles chaudes), la premiere ligne est numerote 0
+    """
     to_keep = []
-    for x, i in enumerate(g_r): #la y a moyen d ameliorer la rapidite je pense
-        if u_g[i] < B3V_fo(x, a, b):
+    for i, x in enumerate(g_r): #la y a moyen d ameliorer la rapidite je pense
+        if u_g[i] != "" and x[i] != "" and u_g[i] < B3V_fo(x, a, b):
             to_keep.append(i)
-
-def write_new_file():
-    """ """
-
-def read_file_lines():
-    """ """
+    return to_keep
