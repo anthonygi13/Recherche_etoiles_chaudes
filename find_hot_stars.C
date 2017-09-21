@@ -13,7 +13,7 @@ void find_hot_stars(){
 
     //nom du fichier à lire
 
-    TString filename = "data_modifié.txt";
+    TString filename = "etoiles_chaudes_et_massives.txt";
 
 
     //ligne B3V au dessus de laquelle on veut recuperer les points, de la forme ax+b
@@ -34,12 +34,12 @@ void find_hot_stars(){
 
     TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
-   //prepare ligne B3V
+    //prepare ligne B3V
 
-   TF1 *f = new TF1("f", "[0]*x+[1]", TMath::MinElement(nentries, u_g), TMath::MaxElement(nentries, u_g));
+    TF1 *f = new TF1("f", "[0]*x+[1]", TMath::MinElement(nentries, u_g), TMath::MaxElement(nentries, u_g));
 
-   f->SetParameter(0, a);
-   f->SetParameter(1, b);
+    f->SetParameter(0, a);
+    f->SetParameter(1, b);
 
 
     //crée le graphique
