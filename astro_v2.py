@@ -14,6 +14,56 @@ def B3V_eq(x):
     return 0.9909 * x - 0.8901
 
 
+
+def lignes(filename, n_u_g, n_g_r):
+    """
+    :param filename:
+    :param n_u_g:
+    :param n_g_r:
+    :return:
+    """
+
+    data = open(filename, 'r')
+    line = data.readline()
+
+    while line != "":
+        u_g = ""
+        g_r = ""
+        n_colonne = 1
+        for char in line:
+            if char == "|":
+                n_colonne += 1
+            if n_colonne == n_u_g:
+                if char != " " and char != "|":
+                    u_g += char
+            elif n_colonne == n_g_r:
+                if char != " " and char != "|":
+                    g_r += char
+            if n_colonne > max(n_u_g, n_g_r):
+                break
+        if u_g == "":
+            u_g = None
+        else:
+            u_g == float(u_g)
+        if g_r == "":
+            g_r = None
+        else:
+            g_r == float(g_r)
+        yield u_g, g_r
+
+    data.close()
+    nfile.close()
+
+
+def recupere_magnitudes(filename, n_u_g, n_g_r):
+    colonne_u_g = []
+    colonne_g_r = []
+    for u_g, g_r in lignes(filename, n_u_g, n_u_r):
+        colonne_u_g.append(u_g)
+        colonne_g_r.append(g_r)
+    return colonne_u_g, colonne_g_r
+
+
 def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
     """
     :param input_file: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
@@ -22,7 +72,6 @@ def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
     :param n_g_r: numero de la colonne correspondant a g-r dans le fichier d'entree
     :return: None : cree juste le nouveau fichier dans le meme repertoire que celui dans lequel se trouve le programme
     """
-
     data = open(input_file, 'r')
     line = data.readline()
 
