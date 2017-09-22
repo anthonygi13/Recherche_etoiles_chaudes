@@ -25,7 +25,6 @@ def lignes(filename, n_u_g, n_g_r):
 
     data = open(filename, 'r')
     line = data.readline()
-
     while line != "":
         u_g = ""
         g_r = ""
@@ -44,24 +43,24 @@ def lignes(filename, n_u_g, n_g_r):
         if u_g == "":
             u_g = None
         else:
-            u_g == float(u_g)
+            u_g = float(u_g)
         if g_r == "":
             g_r = None
         else:
-            g_r == float(g_r)
-        yield u_g, g_r
+            g_r = float(g_r)
+        yield g_r, u_g
+        line = data.readline()
 
     data.close()
-    nfile.close()
 
 
 def recupere_magnitudes(filename, n_u_g, n_g_r):
     colonne_u_g = []
     colonne_g_r = []
-    for u_g, g_r in lignes(filename, n_u_g, n_u_r):
+    for g_r, u_g in lignes(filename, n_u_g, n_g_r):
         colonne_u_g.append(u_g)
         colonne_g_r.append(g_r)
-    return colonne_u_g, colonne_g_r
+    return colonne_g_r, colonne_u_g
 
 
 def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
@@ -98,98 +97,16 @@ def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
     data.close()
     nfile.close()
 
-
-def recupere_magnitudes(input_file, n_u_g, n_g_r):
-    """
-
-    :param input_file: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
-    :param n_u_g: numero de la colonne correspondant a u-g dans le fichier d'entree
-    :param n_g_r: numero de la colonne correspondant a g-r dans le fichier d'entree
-    :return: les listes des valeurs de u-g puis celle de g-r
-    """
-
-    liste_g_r = []
-    liste_u_g = []
-
-    data = open(input_file, 'r')
-    line = data.readline()
-
-    while line != "":
-        u_g = ""
-        g_r = ""
-        n_colonne = 1
-
-        for char in line:
-            if char == "|":
-                n_colonne += 1
-            if n_colonne == n_u_g:
-                if char != " " and char != "|":
-                    u_g += char
-            elif n_colonne == n_g_r:
-                if char != " " and char != "|":
-                    g_r += char
-            if n_colonne > max(n_u_g, n_g_r):
-                break
-
-        liste_g_r.append(float(g_r))
-        liste_u_g.append(float(u_g))
-
-    data.close()
-
-    return liste_g_r, liste_u_g
-
-def recupere_SP(input_file, n_u_g, n_g_r):
-    """
-
-    :param input_file: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
-    :param n_u_g: numero de la colonne correspondant a u-g dans le fichier d'entree
-    :param n_g_r: numero de la colonne correspondant a g-r dans le fichier d'entree
-    :return: les listes des valeurs de u-g puis celle de g-r
-    """
-
-    listeX_SP = []
-    listeY_SP = []
-
-    data = open(input_file, 'r')
-    line = data.readline()
-
-    while line != "":
-        u_g = ""
-        g_r = ""
-        n_colonne = 1
-
-        for char in line:
-            if char == " ":
-                n_colonne += 1
-            if n_colonne == n_u_g:
-                if char != " " and char != "|":
-                    u_g += char
-            elif n_colonne == n_g_r:
-                if char != " " and char != "|":
-                    g_r += char
-            if n_colonne > max(n_u_g, n_g_r):
-                break
-
-        listeX_SP.append(float(g_r))
-        listeY_SP.append(float(u_g))
-
-    data.close()
-
-    return listeX_SP, listeY_SP
-
-
 def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP):
     """
-
     :param liste_g_r: liste des valeurs de g_r
     :param liste_u_g: liste des valeurs de u_g
     :param listex_SP: liste des valeurs de g_r (axe des x) de la séquence principale
     :param listey_SP: liste des valeurs de u_g (axe des y) de la séquence principale
-
     """
-    m1 = liste_g_r.min() #trace ligne de B3V
-    M1 = liste_g_r.max()
-    x = np.linspace(m1, M1, 100)
+    m = min([x for x in liste_g_r if x!= None]) #trace ligne de B3V
+    M = max([y for y in liste_g_r if y != None])
+    x = np.linspace(m, M, 100)
     plot(x, B3V_eq(x))
 
 
@@ -204,10 +121,12 @@ def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP):
     plt.show()
 
 
+liste_g_r, liste_u_g = recupere_magnitudes("data_modifie.txt",6 , 7)
+listeX_SP, listeY_SP = recupere_magnitudes('Coord_seq_principale.txt', 4, 5)
+trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP)
+
+
 
 find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 6, 7)
-liste_g_r = recupere_magnitudes("data_modifie.txt",6,7)[0]
-liste_u_g = recupere_magnitudes("data_modifie.txt",6,7)[1]
-listeX_SP = recupere_SP('Coord_seq_princiaple',4,5)[0]
-listeY_SP = recupere_SP('Coord_seq_princiaple',4,5)[1]
+liste_g_r, liste_u_g = recupere_magnitudes("etoiles_chaudes_et_massives.txt", 6, 7)
 trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP)
