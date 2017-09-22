@@ -1,8 +1,6 @@
 # 21 septembre 2017
 # astro_v2.py
 
-# import matplotlib.pyplot as plt
-# import numpy as np
 from pylab import *
 
 
