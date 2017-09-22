@@ -25,6 +25,7 @@ def lignes(filename, n_u_g, n_g_r):
 
     data = open(filename, 'r')
     line = data.readline()
+
     while line != "":
         u_g = ""
         g_r = ""
@@ -97,12 +98,12 @@ def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
     data.close()
     nfile.close()
 
-def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP):
+def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP, nlistX, nlistY):
     """
     :param liste_g_r: liste des valeurs de g_r
     :param liste_u_g: liste des valeurs de u_g
-    :param listex_SP: liste des valeurs de g_r (axe des x) de la séquence principale
-    :param listey_SP: liste des valeurs de u_g (axe des y) de la séquence principale
+    :param listex_SP: liste des valeurs de g_r (axe des ordonnées) de la séquence principale
+    :param listey_SP: liste des valeurs de u_g (axe des abcisses) de la séquence principale
     """
     m = min([x for x in liste_g_r if x!= None]) #trace ligne de B3V
     M = max([y for y in liste_g_r if y != None])
@@ -117,16 +118,16 @@ def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP):
     plt.gca().invert_yaxis()
 
     plt.scatter(np.array(liste_g_r), np.array(liste_u_g), s=10) #met les etoiles sur le graphe
+    plt.scatter(np.array(nlistX), np.array(nlistY), s=10, c='pink')
 
     plt.show()
 
 
 liste_g_r, liste_u_g = recupere_magnitudes("data_modifie.txt",6 , 7)
 listeX_SP, listeY_SP = recupere_magnitudes('Coord_seq_principale.txt', 4, 5)
-trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP)
-
 
 
 find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 6, 7)
-liste_g_r, liste_u_g = recupere_magnitudes("etoiles_chaudes_et_massives.txt", 6, 7)
-trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP)
+
+Nliste_g_r, Nliste_u_g = recupere_magnitudes("etoiles_chaudes_et_massives.txt", 6, 7)
+trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP, Nliste_g_r, Nliste_u_g)
