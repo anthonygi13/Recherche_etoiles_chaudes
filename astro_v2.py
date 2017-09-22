@@ -117,8 +117,8 @@ def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP, nlistX, nlistY):
     plt.ylabel('u-g')
     plt.gca().invert_yaxis()
 
-    plt.scatter(np.array(liste_g_r), np.array(liste_u_g), s=10) #met les etoiles sur le graphe
-    plt.scatter(np.array(nlistX), np.array(nlistY), s=10, c='pink')
+    plt.scatter(np.array(liste_g_r), np.array(liste_u_g), s=10 , c='orange') #met les etoiles sur le graphe
+    plt.scatter(np.array(nlistX), np.array(nlistY), s=10, c='blue')
 
     plt.show()
 
