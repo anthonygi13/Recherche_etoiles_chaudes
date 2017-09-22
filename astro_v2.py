@@ -113,10 +113,10 @@ def recupere_SP(input_file, n_u_g, n_g_r):
             if char == " ":
                 n_colonne += 1
             if n_colonne == n_u_g:
-                if char != " " and char != " ":
+                if char != " " and char != "|":
                     u_g += char
             elif n_colonne == n_g_r:
-                if char != " " and char != " ":
+                if char != " " and char != "|":
                     g_r += char
             if n_colonne > max(n_u_g, n_g_r):
                 break
@@ -129,16 +129,22 @@ def recupere_SP(input_file, n_u_g, n_g_r):
     return listeX_SP, listeY_SP
 
 
-def trace_graph(liste_g_r, liste_u_g, listex_SP, listey_SP):
+def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP):
     """
-    :param liste_g_r:
-    :param liste_u_g:
-    :return:
+
+    :param liste_g_r: liste des valeurs de g_r
+    :param liste_u_g: liste des valeurs de u_g
+    :param listex_SP: liste des valeurs de g_r (axe des x) de la séquence principale
+    :param listey_SP: liste des valeurs de u_g (axe des y) de la séquence principale
+
     """
-    m = liste_g_r.min() #trace ligne de B3V
-    M = liste_g_r.max()
-    x = np.linspace(m, M, 100)
+    m1 = liste_g_r.min() #trace ligne de B3V
+    M1 = liste_g_r.max()
+    x = np.linspace(m1, M1, 100)
     plot(x, B3V_eq(x))
+
+
+    plot(listeX_SP,listeY_SP, 'r-', lw=2)
 
     plt.xlabel('g-r')
     plt.ylabel('u-g')
@@ -153,6 +159,6 @@ def trace_graph(liste_g_r, liste_u_g, listex_SP, listey_SP):
 find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 6, 7)
 liste_g_r = recupere_magnitudes("data_modifie.txt",6,7)[0]
 liste_u_g = recupere_magnitudes("data_modifie.txt",6,7)[1]
-listeX_SP =
-listeY_SP =
-trace_graph(liste_g_r,liste_u_g)
+listeX_SP = recupere_SP('Coord_seq_princiaple',4,5)[0]
+listeY_SP = recupere_SP('Coord_seq_princiaple',4,5)[1]
+trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP)
