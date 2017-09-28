@@ -12,7 +12,6 @@ def B3V_eq(x):
     return 0.9909 * x - 0.8901
 
 
-
 def lignes(filename, n_u_g, n_g_r):
     """
     :param filename:
@@ -71,9 +70,16 @@ def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
     :return: None : cree juste le nouveau fichier dans le meme repertoire que celui dans lequel se trouve le programme
     """
     data = open(input_file, 'r')
+    nfile = open(output_file, "a")
     line = data.readline()
 
+    i = 0
+
     while line != "":
+        i += 1
+        if i % 10000 == 0:
+            print(i)
+        print("avancement : ", i)
         u_g = ""
         g_r = ""
         n_colonne = 1
@@ -89,18 +95,18 @@ def find_hot_stars(input_file, output_file, n_u_g, n_g_r):
             if n_colonne > max(n_u_g, n_g_r):
                 break
         if u_g != "" and g_r != "" and float(u_g) <= B3V_eq(float(g_r)):
-            nfile = open(output_file, "a")
             nfile.write(line)
         line = data.readline()
 
     data.close()
     nfile.close()
 
+
 def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP, nlistX, nlistY):
     """
     :param liste_g_r: liste des valeurs de g_r
-    :param liste_u_g: liste des valeurs de u_g
-    :param listex_SP: liste des valeurs de g_r (axe des ordonnées) de la séquence principale
+    :param liste_u_g: liste des valeurs de u_g=
+    :param listex_SP: liste des valeurs de g_r (axe des ordonnees) de la sequence principale
     :param listey_SP: liste des valeurs de u_g (axe des abcisses) de la séquence principale
     """
     m = min([x for x in liste_g_r if x!= None]) #trace ligne de B3V
@@ -121,11 +127,31 @@ def trace_graph(liste_g_r, liste_u_g, listeX_SP, listeY_SP, nlistX, nlistY):
     plt.show()
 
 
-liste_g_r, liste_u_g = recupere_magnitudes("data_modifie.txt",6 , 7)
-listeX_SP, listeY_SP = recupere_magnitudes('Coord_seq_principale.txt', 4, 5)
 
 
-find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 6, 7)
+#find_hot_stars("data_modifie.txt", "catalogue_etoiles_chaudes.txt", 6, 7)
 
-Nliste_g_r, Nliste_u_g = recupere_magnitudes("etoiles_chaudes_et_massives.txt", 6, 7)
-trace_graph(liste_g_r,liste_u_g,listeX_SP,listeY_SP, Nliste_g_r, Nliste_u_g)
+
+
+
+for i in range(300000000):
+    print(i)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
