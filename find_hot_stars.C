@@ -13,7 +13,7 @@ void find_hot_stars(){
 
     //nom du fichier à lire
 
-    TString filename = "etoiles_chaudes_et_massives.txt";
+    TString filename = "data_modifie.txt";
 
 
     //ligne B3V au dessus de laquelle on veut recuperer les points, de la forme ax+b
