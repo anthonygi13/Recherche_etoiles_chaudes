@@ -112,42 +112,41 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g):
     nfile.close()
 
 
-def fichier_reg(input_file, output_file, alpha, delta):
+def fichier_reg(input_file, output_file, n_alpha, n_delta):
     """
 
-    :param input_file: fichier avec les étoiles chaudes
+    :param input_file: fichier avec les etoiles chaudes
     :param output_file: fichier en .reg
-    :param alpha: colonne avec les coordonées alpha de l'étoile
-    :param delta: colonne avec les coordonnées delta de l'étoile
+    :param n_alpha: colonne avec les coordonees alpha de l'etoile
+    :param n_delta: colonne avec les coordonnees delta de l'etoile
     :return: None
     """
     data = open(input_file, 'r')
     nfile = open(output_file, "a")
     line = data.readline()
 
-    nfile.write('#Region file format: DS9 version 4.1\n')
-    nfile.write('global color=green dashlist=8 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
+    nfile.write('# Region file format: DS9 version 4.1\n')
+    nfile.write('global color=green dashlist=8 3 width=1 font=\"helvetica 10 normal roman\" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
     nfile.write('fk5\n')
 
     while line != "":
-        a = ""
-        d = ""
+        alpha = ""
+        delta = ""
         n_colonne = 1
 
         for char in line:
             if char == "|":
                 n_colonne += 1
-            if n_colonne == alpha:
+            if n_colonne == n_alpha:
                 if char != " " and char != "|":
-                    a += char
-            elif n_colonne == delta:
+                    alpha += char
+            elif n_colonne == n_delta:
                 if char != " " and char != "|":
-                    d += char
-            if n_colonne > max(alpha, delta):
+                    delta += char
+            if n_colonne > max(n_alpha, n_delta):
                 break
 
-
-        nfile.write('circle(' + a + ',' + d + ',5\'\')\n')
+        nfile.write('circle(' + alpha + ',' + delta + ',5\'\')\n')
         line = data.readline()
 
     data.close()
@@ -198,12 +197,11 @@ def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n
     plt.legend()
     plt.show()
 
-nfile = open('test.reg', "a")
 
-
+"""
 find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 7, 6)
 fichier_reg("etoiles_chaudes_et_massives.txt", "catalogue.reg",1,2)
 trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 2\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
                 "etoiles_chaudes_et_massives.txt")
-
+"""
 
