@@ -112,7 +112,50 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g):
     nfile.close()
 
 
-def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n_g_r_SP, n_u_g_SP, hot_stars_filename=None):
+def fichier_reg(input_file, output_file, alpha, delta):
+    """
+
+    :param input_file: fichier avec les étoiles chaudes
+    :param output_file: fichier en .reg
+    :param alpha: colonne avec les coordonées alpha de l'étoile
+    :param delta: colonne avec les coordonnées delta de l'étoile
+    :return: None
+    """
+    data = open(input_file, 'r')
+    nfile = open(output_file, "a")
+    line = data.readline()
+
+    nfile.write('#Region file format: DS9 version 4.1\n')
+    nfile.write('global color=green dashlist=8 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
+    nfile.write('fk5\n')
+
+    while line != "":
+        a = ""
+        d = ""
+        n_colonne = 1
+
+        for char in line:
+            if char == "|":
+                n_colonne += 1
+            if n_colonne == alpha:
+                if char != " " and char != "|":
+                    a += char
+            elif n_colonne == delta:
+                if char != " " and char != "|":
+                    d += char
+            if n_colonne > max(alpha, delta):
+                break
+
+
+        nfile.write('circle(' + a + ',' + d + ',5\'\')\n')
+        line = data.readline()
+
+    data.close()
+    nfile.close()
+
+
+def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n_g_r_SP, n_u_g_SP,
+                    hot_stars_filename=None):
     """
     :param titre: titre que l'on veut donner au graphique
     :param data_filename: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
@@ -126,20 +169,20 @@ def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n
     :return: None, trace le graphique u-g vs g-r avec la sequance principale et la ligne B3V
     """
 
-    #recupere donnees
+    # recupere donnees
     g_r_data, u_g_data = recupere_magnitudes(data_filename, n_g_r_data, n_u_g_data)
     g_r_SP, u_g_SP = recupere_magnitudes(SP_filename, n_g_r_SP, n_u_g_SP)
 
-    #parametre le graphique
+    # parametre le graphique
     plt.xlabel('g-r')
     plt.ylabel('u-g')
     plt.gca().invert_yaxis()
 
-    #trace u-g vs g-r avec nos donnees
-    plt.plot(g_r_data, u_g_data, '.', c='blue', label='Étoiles')
+    # trace u-g vs g-r avec nos donnees
+    plt.plot(g_r_data, u_g_data, '.', c='red', label='Étoiles')
     if hot_stars_filename != None:
         g_r_hot_stars, u_g_hot_stars = recupere_magnitudes(hot_stars_filename, n_g_r_data, n_u_g_data)
-        plt.plot(g_r_hot_stars, u_g_hot_stars, '.', c='red', label='Étoiles chaudes')
+        plt.plot(g_r_hot_stars, u_g_hot_stars, '.', c='blue', label='Étoiles chaudes')
 
     # trace ligne B3V
     m = min([x for x in g_r_data if x != None])
@@ -150,31 +193,17 @@ def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n
     # trace sequence principale
     plt.plot(g_r_SP, u_g_SP, c='black', label='Séquence principale')
 
-    #met le titre et affiche le tout
+    # met le titre et affiche le tout
     title(titre)
     plt.legend()
     plt.show()
 
+nfile = open('test.reg', "a")
 
 
-#find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 7, 6)
-
-trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 2\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3, "etoiles_chaudes_et_massives.txt")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 7, 6)
+fichier_reg("etoiles_chaudes_et_massives.txt", "catalogue.reg",1,2)
+trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 2\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
+                "etoiles_chaudes_et_massives.txt")
 
 
