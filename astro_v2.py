@@ -2,6 +2,9 @@
 # astro_v2.py
 
 from pylab import *
+import os
+
+
 
 
 def B3V_eq(x):
@@ -81,7 +84,7 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g):
     """
 
     data = open(input_file, 'r')
-    nfile = open(output_file, "a")
+    nfile = open(output_file, "w")
     line = data.readline()
 
     i = 0
@@ -122,7 +125,7 @@ def fichier_reg(input_file, output_file, n_alpha, n_delta):
     :return: None
     """
     data = open(input_file, 'r')
-    nfile = open(output_file, "a")
+    nfile = open(output_file, "w")
     line = data.readline()
 
     nfile.write('# Region file format: DS9 version 4.1\n')
@@ -146,7 +149,7 @@ def fichier_reg(input_file, output_file, n_alpha, n_delta):
             if n_colonne > max(n_alpha, n_delta):
                 break
 
-        nfile.write('circle(' + alpha + ',' + delta + ',5\'\')\n')
+        nfile.write('circle(' + alpha + ',' + delta + ',5\")\n')
         line = data.readline()
 
     data.close()
@@ -197,11 +200,37 @@ def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n
     plt.legend()
     plt.show()
 
+def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r, n_u_g, n_alpha, n_delta):
 
-"""
-find_hot_stars("data_modifie.txt", "etoiles_chaudes_et_massives.txt", 7, 6)
-fichier_reg("etoiles_chaudes_et_massives.txt", "catalogue.reg",1,2)
-trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 2\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
-                "etoiles_chaudes_et_massives.txt")
-"""
+    if not os.path.exists(input_file):
+        print("le fichier ", input_file, " n'existe pas")
+    if os.path.exists(output_file_hot_stars):
+        reponse = input("Le fichier " + output_file_hot_stars + " existe deja : voulez vous l'ecraser ? (o/n) ")
+        if reponse == "n":
+            while os.path.exists(output_file_hot_stars):
+                output_file_hot_stars = "new_" + output_file_hot_stars
+    if os.path.exists(output_file_reg):
+        reponse = input("Le fichier " + output_file_reg + " existe deja : voulez vous l'ecraser ? (o/n) ")
+        if reponse == "n":
+            while os.path.exists(output_file_reg):
+                output_file_reg = "new_" + output_file_reg
 
+    print("\noutput_file_hot_stars = ", output_file_hot_stars)
+    print("output_file_reg = ", output_file_reg)
+
+    find_hot_stars(input_file, output_file_hot_stars, n_g_r, n_u_g)
+    print("\ncatalogue d'etoiles chaudes ecrit")
+
+    fichier_reg(output_file_hot_stars, output_file_reg, n_alpha, n_delta)
+    print("\nfichier .reg ecrit")
+
+
+#traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg", 7, 6, 1, 2)
+
+#trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 3\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
+#                "etoiles_chaudes_et_massives.txt")
+
+
+os.system("wget -P /home/anthony/Recherche_etoiles_chaudes/ 'archive.eso.org/dss/dss/image?ra=&dec=&equinox=J2000&name=RCW+49&x=3&y=3&Sky-Survey=DSS2-red&mime-type=download-fits&statsmode=WEBFORM' -O image.fits")
+
+os.system("ds9 image.fits -regions catalogue.reg")

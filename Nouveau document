@@ -1,3 +1,9 @@
 Coucou j'ai amené des cookies pour le p'tit déj !
 
 Trop cooooool!! Tu m'en donneras combien ? :)
+
+
+wget -P /home/anthony/Recherche_etoiles_chaudes/ 'archive.eso.org/dss/dss/image?ra=&dec=&equinox=J2000&name=RCW+49&x=3&y=3&Sky-Survey=DSS2-red&mime-type=download-fits&statsmode=WEBFORM'
+
+
+a faire : fonction qui telecharge les données qu on veut a partir du premier lien qu on utilisait
