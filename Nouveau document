@@ -9,4 +9,5 @@ wget -P /home/anthony/Recherche_etoiles_chaudes/ 'archive.eso.org/dss/dss/image?
 a faire : fonction qui telecharge les données qu on veut a partir du premier lien qu on utilisait
 
 
-http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c=RCW+49&-c.eq=J2000&-c.r=3&-c.u=arcmin&-c.geom=r&-out=RAJ2000&-out=RAJ2000&-out=g-r2&-out=umag&-out.add=_Glon,_Glat&-out=e_imag&-out=imag&-out=e_rmag&-out=rmag&-out=e_Hamag&-out=Hamag&-out=e_r2mag&-out=r2mag&-out=e_umag&-oc.form=dec&-out.form=|+-Separated-Values
+http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c=RCW+49&-c.eq=J2000&-c.r=3&-c.u=arcmin&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values
+
