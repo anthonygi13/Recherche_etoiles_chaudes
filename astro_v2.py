@@ -200,7 +200,7 @@ def trace_graphique(titre, data_filename, SP_filename, n_g_r_data, n_u_g_data, n
     plt.legend()
     plt.show()
 
-def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r, n_u_g, n_alpha, n_delta):
+def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r=7, n_u_g=6, n_alpha=1, n_delta=2):
 
     if not os.path.exists(input_file):
         print("le fichier ", input_file, " n'existe pas")
@@ -225,12 +225,29 @@ def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r, n_u_
     print("\nfichier .reg ecrit")
 
 
-#traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg", 7, 6, 1, 2)
+traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg")
 
 #trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 3\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
 #                "etoiles_chaudes_et_massives.txt")
 
 
-os.system("wget -P /home/anthony/Recherche_etoiles_chaudes/ 'archive.eso.org/dss/dss/image?ra=&dec=&equinox=J2000&name=RCW+49&x=3&y=3&Sky-Survey=DSS2-red&mime-type=download-fits&statsmode=WEBFORM' -O image.fits")
+os.system("wget 'archive.eso.org/dss/dss/image?ra=&dec=&equinox=J2000&name=RCW+49&x=10&y=10&Sky-Survey=DSS2-red&mime-type=download-fits&statsmode=WEBFORM' -O image.fits")
 
 os.system("ds9 image.fits -regions catalogue.reg")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

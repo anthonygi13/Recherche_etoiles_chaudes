@@ -7,3 +7,6 @@ wget -P /home/anthony/Recherche_etoiles_chaudes/ 'archive.eso.org/dss/dss/image?
 
 
 a faire : fonction qui telecharge les données qu on veut a partir du premier lien qu on utilisait
+
+
+http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c=RCW+49&-c.eq=J2000&-c.r=3&-c.u=arcmin&-c.geom=r&-out=RAJ2000
