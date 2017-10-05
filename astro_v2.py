@@ -215,6 +215,7 @@ def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r=7, n_
             while os.path.exists(output_file_reg):
                 output_file_reg = "new_" + output_file_reg
 
+
     print("\noutput_file_hot_stars = ", output_file_hot_stars)
     print("output_file_reg = ", output_file_reg)
 
@@ -227,8 +228,8 @@ def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r=7, n_
 
 traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg")
 
-#trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 3\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
-#                "etoiles_chaudes_et_massives.txt")
+trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 3\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
+                "etoiles_chaudes_et_massives.txt")
 
 
 os.system("wget 'archive.eso.org/dss/dss/image?ra=&dec=&equinox=J2000&name=RCW+49&x=10&y=10&Sky-Survey=DSS2-red&mime-type=download-fits&statsmode=WEBFORM' -O image.fits")
