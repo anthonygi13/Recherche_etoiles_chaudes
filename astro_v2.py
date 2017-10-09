@@ -263,6 +263,25 @@ def recup_catalogue(region, file, size, output_folder=None, size_unit='arcmin'):
 
     os.system("wget '" + res + "' -O " + file)
 
+
+def fonction (region_name, output_file_picture, output_file_data, output_file_data_reg, xsize_picture, ysize_picture ,size, output_folder=None, coordinate_system="J2000", survey="DSS2-red", ra="", dec="", n_g_r=7, n_u_g=6, n_alpha=1, n_delta=2):
+    if output_folder is not None:
+        if not os.path.exists(output_folder):
+            os.system("mkdir " + output_folder)
+
+        #ici il faut changer les noms des fichiers
+        output_file_picture = output_folder + "/" + output_file_picture
+        output_file_data = output_folder + "/" + output_file_data
+        output_file_data_reg = output_folder + "/" + output_file_data_reg
+
+
+    recup_catalogue(region_name, 'data', str(size), output_folder)
+
+    get_picture(output_file_picture, region_name, str(xsize_picture), str(ysize_picture), output_folder, coordinate_system, survey, ra, dec)
+    traiter_data('data', output_file_data, output_file_data_reg, output_folder, n_g_r, n_u_g, n_alpha, n_delta)
+
+
+
 #get_picture("image.fits", "RCW 49", 10, 10, output_folder = "nouveau_dossier_test_2_42")
 
 #traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg")
@@ -277,6 +296,7 @@ def recup_catalogue(region, file, size, output_folder=None, size_unit='arcmin'):
 
 #os.system("ds9 image.fits -regions catalogue.reg")
 
+fonction("RCW 49", "image.fits", "etoiles_chaudes_et_massives.txt", "catalogue.reg", 10, 10, 3, output_folder="nouveau_dossier_test_3_42")
 
 
 
