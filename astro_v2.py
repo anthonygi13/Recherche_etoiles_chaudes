@@ -238,16 +238,20 @@ def get_picture(output_file, region_name, x_size, y_size, output_folder=None, co
             nregion_name += "+"
         else:
             nregion_name += char
+            
     if output_folder is not None:
         if not os.path.exists(output_folder):
             os.system("mkdir " + output_folder)
-        os.system("wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name=" + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_folder + "/" + output_file)
-    else:
-        os.system(
-            "wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name=" + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file)
+        output_file = output_folder + "/" + output_file
+
+    os.system("wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name=" + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file)
 
 
-def recup_catalogue(region, file, target, unit='arcmin'):
+def recup_catalogue(region, file, size, output_folder=None, size_unit='arcmin'):
+    if output_folder is not None:
+        if not os.path.exists(output_folder):
+            os.system("mkdir " + output_folder)
+        file = output_folder + "/" + file
 
     res = 'http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
 
@@ -255,10 +259,9 @@ def recup_catalogue(region, file, target, unit='arcmin'):
         if char == ' ':
             char = '+'
 
-    res = res + region + '&-c.eq=J2000&-c.r=' + target + '&-c.u=' + unit + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
+    res = res + region + '&-c.eq=J2000&-c.r=' + size + '&-c.u=' + size_unit + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
 
-    os.system("wget " + "'" + res + "' -O " + file)
-
+    os.system("wget '" + res + "' -O " + file)
 
 #get_picture("image.fits", "RCW 49", 10, 10, output_folder = "nouveau_dossier_test_2_42")
 
@@ -273,21 +276,6 @@ def recup_catalogue(region, file, target, unit='arcmin'):
 #os.system("wget 'http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c=RCW+49&-c.eq=J2000&-c.r=3&-c.u=arcmin&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values' -O test.txt")
 
 #os.system("ds9 image.fits -regions catalogue.reg")
-
-
-
-def recup_catalogue(region, file, size, size_unit='arcmin') :
-
-
-
-    res = res + region + '&-c.eq=J2000&-c.r=' + size + '&-c.u=' + size_unit + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
-
-    os.system("wget '" + res + "' -O " + file)
-
-
-
-
-
 
 
 
