@@ -226,6 +226,26 @@ def traiter_data(input_file, output_file_hot_stars, output_file_reg, n_g_r=7, n_
     print("\nfichier .reg ecrit")
 
 
+def get_picture(output_file, region_name, x_size, y_size, output_folder=None, coordinate_system="J2000", survey="DSS2-red", ra="", dec=""):
+    nregion_name = ""
+    for char in region_name:
+        if char == " ":
+            nregion_name += "+"
+        else:
+            nregion_name += char
+    if output_folder is not None:
+        if not os.path.exists(output_folder):
+            os.system("mkdir " + output_folder)
+        os.system("wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name=" + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_folder + "/" + output_file)
+    else:
+        os.system(
+            "wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name=" + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file)
+
+
+
+
+#get_picture("image.fits", "RCW 49", 10, 10, output_folder = "nouveau_dossier_test_2_42")
+
 #traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg")
 
 #trace_graphique("u-g vs g-r, région HII RCW 49, cone search : 3\'", "data_modifie.txt", "SP.txt", 7, 6, 4, 3,
@@ -254,6 +274,13 @@ def recup_catalogue(region,file, target,unit='arcmin') :
 
 
 recup_catalogue('RCW 49','test_data.txt','3')
+
+
+
+
+
+
+
 
 
 
