@@ -10,7 +10,7 @@ import os
 def B3V_eq(x):
     """
     :param x: abcsisse du point de la ligne B3V dont on veut obtenir l'ordonnee
-    :return: ordonnée du point de la ligne B3V correspondant à l'abscisse x (dans un graphique u-g vs g-r)
+    :return: ordonnee du point de la ligne B3V correspondant a l'abscisse x (dans un graphique u-g vs g-r)
     """
 
     return 0.9909 * x - 0.8901
@@ -63,7 +63,7 @@ def recupere_magnitudes(filename, n_g_r, n_u_g):
     les caracteristique u-g et g-r
     :param n_g_r: numero de la colonne correspondant a u-g dans le fichier d'entree
     :param n_u_g: numero de la colonne correspondant a g-r dans le fichier d'entree
-    :return: liste avec les données de la colonne g-r dans le fichier filename, et une autre avec celles de u-g
+    :return: liste avec les donnees de la colonne g-r dans le fichier filename, et une autre avec celles de u-g
     """
 
     colonne_u_g = []
@@ -92,7 +92,7 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g):
     while line != "":
         i += 1
         if i % 10000 == 0:
-            print(print("avancement : ", i))
+            print("avancement : ", i)
         u_g = ""
         g_r = ""
         n_colonne = 1
@@ -260,7 +260,7 @@ def get_picture(output_file, region_name, x_size, y_size, output_folder=None, co
 
 
 
-def recup_catalogue(region,file, target,unit='arcmin') :
+def recup_catalogue(region, file, size, size_unit='arcmin') :
 
     res = 'http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
 
@@ -268,9 +268,9 @@ def recup_catalogue(region,file, target,unit='arcmin') :
         if char == ' ' :
             char = '+'
 
-    res = res + region + '&-c.eq=J2000&-c.r=' + target + '&-c.u=' + unit + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
+    res = res + region + '&-c.eq=J2000&-c.r=' + size + '&-c.u=' + size_unit + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
 
-    os.system("wget " + "'" + res + "' -O " + file)
+    os.system("wget '" + res + "' -O " + file)
 
 
 recup_catalogue('RCW 49','test_data.txt','3')
