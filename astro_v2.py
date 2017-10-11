@@ -230,43 +230,75 @@ def traiter_data(input_file, output_file_hot_stars, output_file_reg, output_fold
 
 
 def get_picture(output_file, region_name, x_size, y_size, output_folder=None, coordinate_system="J2000", survey="DSS2-red", ra="", dec=""):
-    nregion_name = ""
-    for char in region_name:
+    output_file_for_terminal = ""
+    for char in output_file:
         if char == " ":
-            nregion_name += "+"
+            output_file_for_terminal += "\ "
         else:
-            nregion_name += char
+            output_file_for_terminal += char
 
     if output_folder is not None:
+        output_folder_for_terminal = ""
+        for char in output_folder:
+            if char == " ":
+                output_folder_for_terminal += "\ "
+            else:
+                output_folder_for_terminal += char
+        print(output_folder_for_terminal)
         if not os.path.exists(output_folder):
-            os.system("mkdir " + output_folder)
-        output_file = output_folder + "/" + output_file
+            os.system("mkdir " + output_folder_for_terminal)
+        output_file_for_terminal = output_folder_for_terminal + "/" + output_file_for_terminal
+
+    region_name_for_link = ""
+    region_name_for_terminal = ""
+    for char in region_name:
+        if char == " ":
+            region_name_for_link += "+"
+            region_name_for_terminal += "\ "
+        else:
+            region_name_for_link += char
+            region_name_for_terminal += char
 
     os.system("wget 'archive.eso.org/dss/dss/image?ra=" + ra + "&dec=" + dec + "&equinox=" + coordinate_system + "&name="
-              + nregion_name + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey
-              + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file)
+              + region_name_for_link + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey
+              + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file_for_terminal)
 
 
 def recup_catalogue(region_name, output_file, cone_size, output_folder=None, size_unit='arcmin'):
+    output_file_for_terminal = ""
+    for char in output_file:
+        if char == " ":
+            output_file_for_terminal += "\ "
+        else:
+            output_file_for_terminal += char
     if output_folder is not None:
+        output_folder_for_terminal = ""
+        for char in output_folder:
+            if char == " ":
+                output_folder_for_terminal += "\ "
+            else:
+                output_folder_for_terminal += char
         if not os.path.exists(output_folder):
-            os.system("mkdir " + output_folder)
-        output_file = output_folder + "/" + output_file
+            os.system("mkdir " + output_folder_for_terminal)
+        output_file_for_terminal = output_folder_for_terminal + "/" + output_file_for_terminal
 
-    nregion_name = ""
+    region_name_for_link = ""
+    region_name_for_terminal = ""
     for char in region_name:
         if char == " ":
-            nregion_name += "+"
+            region_name_for_link += "+"
+            region_name_for_terminal += "\ "
         else:
-            nregion_name += char
+            region_name_for_link += char
+            region_name_for_terminal += char
 
     os.system("wget '" + 'http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
-              + nregion_name + '&-c.eq=J2000&-c.r=' + cone_size + '&-c.u=' + size_unit
+              + region_name_for_link + '&-c.eq=J2000&-c.r=' + cone_size + '&-c.u=' + size_unit
               + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
-              + "' -O " + output_file)
+              + "' -O " + output_file_for_terminal)
 
-
-def fonction (region_name, output_file_picture, output_file_data, output_file_data_reg, xsize_picture, ysize_picture ,size, output_folder=None, coordinate_system="J2000", survey="DSS2-red", ra="", dec="", n_g_r=7, n_u_g=6, n_alpha=1, n_delta=2):
+"""
+def traiter_data(region_name, output_file_picture, output_file_data, output_file_data_reg, xsize_picture, ysize_picture ,size, output_folder=None, coordinate_system="J2000", survey="DSS2-red", ra="", dec="", n_g_r=7, n_u_g=6, n_alpha=1, n_delta=2):
     if output_folder is not None:
         if not os.path.exists(output_folder):
             os.system("mkdir " + output_folder)
@@ -281,10 +313,21 @@ def fonction (region_name, output_file_picture, output_file_data, output_file_da
 
     get_picture(output_file_picture, region_name, str(xsize_picture), str(ysize_picture), output_folder, coordinate_system, survey, ra, dec)
     traiter_data('data', output_file_data, output_file_data_reg, output_folder, n_g_r, n_u_g, n_alpha, n_delta)
+"""
+
+def analyser_region(region_name, cone_size, output_folder, output_file_data, output_file_data_hot_stars, output_file_reg, output_file_fit, output_file_plot):
+    """garder que les deux premiers parametres completer les autres automatiquement en fonctino du nom de la region et de la taille du ciel"""
+    output_folder = region_name + "\ (" + cone_size + "arcmin)"
 
 
 
-#get_picture("image.fits", "RCW 49", 10, 10, output_folder = "nouveau_dossier_test_2_42")
+
+
+
+
+
+
+get_picture("image.fits", "RCW 49", 10, 10, output_folder = "dossier test")
 
 #traiter_data("data_modifie.txt", "etoiles_chaudes_et_massives.txt", "catalogue.reg")
 
@@ -298,7 +341,7 @@ def fonction (region_name, output_file_picture, output_file_data, output_file_da
 
 #os.system("ds9 image.fits -regions catalogue.reg")
 
-fonction("RCW 49", "image.fits", "etoiles_chaudes_et_massives.txt", "catalogue.reg", 10, 10, 3, output_folder="nouveau_dossier_test_3_42")
+#fonction("RCW 49", "image.fits", "etoiles_chaudes_et_massives.txt", "catalogue.reg", 10, 10, 3, output_folder="nouveau_dossier_test_3_42")
 
 
 
