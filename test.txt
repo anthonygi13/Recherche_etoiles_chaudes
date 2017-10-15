@@ -1,6 +1,6 @@
 #
-#   VizieR Astronomical Server vizier.cfa.harvard.edu
-#    Date: 2017-10-13T10:24:58 [V1.99+ (14-Oct-2013)]
+#   VizieR Astronomical Server vizier.u-strasbg.fr
+#    Date: 2017-10-09T07:39:00 [V1.99+ (14-Oct-2013)]
 #   In case of problem, please report to:	cds-question@unistra.fr
 #
 #
@@ -34,6 +34,7 @@
 #INFO	stdin=-out.form=| -Separated-Values	
 #INFO	out_form(| -Separated-Values)=0x0	
 #INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VOTx17225	
 #INFO	-ref=VOTx10230	
 #INFO	show_infos=0x8000	
 #INFO	-out.max=unlimited	
