@@ -382,6 +382,7 @@ def save_plot(output_file, input_file, titre, SP_filename="SP.txt", output_folde
 
 
 def analyser_region(region_name, cone_size):
+
     region_name_for_filenames = ""
     for char in region_name:
         if char == " ":
@@ -414,5 +415,7 @@ def analyser_region(region_name, cone_size):
     save_plot(output_file_plot, output_file_data, region_name + " (cone search : " + str(cone_size) + " arcmin)", output_folder=output_folder, input_file_hot_stars=output_file_hot_stars_data)
     oldpwd = os.getcwd()
     os.chdir(output_folder)
-    os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture)
+    os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture + " -exit")
     os.chdir(oldpwd)
+
+analyser_region("RCW 49", 2)
