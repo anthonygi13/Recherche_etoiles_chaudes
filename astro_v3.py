@@ -228,7 +228,7 @@ def trace_graphique(titre, data_filename, SP_filename="SP.txt", n_g_r_data=6, n_
     plt.show()
 
 
-def get_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
+def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
                 survey="DSS2-red", ra="", dec=""):
 
     output_file_for_terminal = ""
@@ -409,7 +409,7 @@ def analyser_region(region_name, cone_size):
     output_file_sky_picture = region_name_for_filenames + ".sky_picture.png"
 
     recup_catalogue(region_name, output_file_data, cone_size, output_folder)
-    get_picture(region_name, output_file_fits, 2 * cone_size, 2 * cone_size, output_folder)
+    get_sky_picture(region_name, output_file_fits, 2 * cone_size, 2 * cone_size, output_folder)
     find_hot_stars(output_file_data, output_file_hot_stars_data, output_folder)
     fichier_reg(output_file_hot_stars_data, output_file_reg, output_folder)
     save_plot(output_file_plot, output_file_data, region_name + " (cone search : " + str(cone_size) + " arcmin)", output_folder=output_folder, input_file_hot_stars=output_file_hot_stars_data)
