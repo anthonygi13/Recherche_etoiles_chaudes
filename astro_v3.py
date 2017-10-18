@@ -311,7 +311,7 @@ def recup_catalogue(region_name, output_file, cone_size, output_folder=None, siz
             region_name_for_terminal += char
 
     os.system(
-        "wget '" + 'http://vizier.cfa.harvard.edu/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
+        "wget '" + 'http://vizier.u-strasbg.fr/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
         + region_name_for_link + '&-c.eq=J2000&-c.r=' + str(cone_size) + '&-c.u=' + size_unit
         + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=|+-Separated-Values'
         + "' -O " + output_file_for_terminal)
@@ -418,4 +418,25 @@ def analyser_region(region_name, cone_size):
     os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture + " -exit")
     os.chdir(oldpwd)
 
-analyser_region("RCW 49", 2)
+analyser_region("RCW 49", 10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
