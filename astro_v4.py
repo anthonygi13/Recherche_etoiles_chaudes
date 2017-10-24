@@ -1,5 +1,9 @@
-# Authors: Bratulic Melanie, Durand-Viel Albane, Giraudo Anthony, Marinho Louise
-# rajouter les mails
+# S3 Projet 2017
+# Licence MPCI
+# Authors:   Bratulic Melanie, mail:
+#            Durand-Viel Albane, mail:
+#            Giraudo Anthony, mail:
+#            Marinho Louise, mail : louise.marinho@free.fr
 # Creation date : 10/20/2017
 # File : astro_v4.py
 
@@ -29,17 +33,16 @@ def main_sequence(g_r):
 
 def lines(filename, n_c1, n_c2):
     """
-    :param filename: nom du fichier qui contient les donnees des etoiles dont on veut connaitre
-    les valeurs dans les colonnes c1 et c2
-    :param n_c1: numero de la colonne correspondant a la colonne c1 dans le fichier d'entree
-    :param n_c2: numero de la colonne correspondant a la colonne c2 dans le fichier d'entree
-    :return: que dalle, c'est un generateur
+    :param filename: name of file, where the data of the stars are. We want the values of c1 and c2
+    :param n_c1: number of column c1 in our file
+    :param n_c2: number of column c1 in our file
+    :return: Nothing
     """
 
     data = open(filename, 'r')
     line = data.readline()
 
-    while line[0:2] != "--":
+    while line[0:2] != "--": # the columns start after a line of '-----'
         line = data.readline()
 
     line = data.readline()
@@ -69,7 +72,7 @@ def lines(filename, n_c1, n_c2):
     data.close()
 
 
-def recupere_magnitudes(filename, n_g_r, n_u_g):
+def get_magnitudes(filename, n_g_r, n_u_g):
     """
     :param filename: nom du fichier qui contient les donnees des etoiles dont on veut connaitre
     les caracteristique u-g et g-r
@@ -80,7 +83,7 @@ def recupere_magnitudes(filename, n_g_r, n_u_g):
 
     colonne_u_g = []
     colonne_g_r = []
-    for g_r, u_g in lignes(filename, n_g_r, n_u_g):
+    for g_r, u_g in lines(filename, n_g_r, n_u_g):
         if u_g is not None: colonne_u_g.append(float(u_g))
         else: colonne_u_g.append(u_g)
         if g_r is not None: colonne_g_r.append(float(g_r))
@@ -148,7 +151,7 @@ def find_hot_stars(input_file, output_file, output_folder=None, n_g_r=6, n_u_g=5
                     g_r += char
             if n_colonne > max([n_u_g, n_g_r]):
                 break
-        if u_g != "" and g_r != "" and float(u_g) <= B3V_eq(float(g_r)):
+        if u_g != "" and g_r != "" and float(u_g) <= B3V_line(float(g_r)):
             nfile.write(line)
         line = data.readline()
 
@@ -189,54 +192,53 @@ def fichier_reg(input_file, output_file, output_folder=None, n_alpha=3, n_delta=
         'global color=green dashlist=8 3 width=1 font=\"helvetica 10 normal roman\" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
     nfile.write('fk5')
 
-    for alpha, delta in lignes(input_file, n_alpha, n_delta):
+    for alpha, delta in lines(input_file, n_alpha, n_delta):
         nfile.write("\n")
         nfile.write('circle(' + alpha + ',' + delta + ',5\")')
 
     nfile.close()
 
 
-def trace_graphique(titre, data_filename, SP_filename="SP.txt", n_g_r_data=6, n_u_g_data=5, n_g_r_SP=4, n_u_g_SP=3,
+def plot_graphic(Title, data_filename, SP_filename="SP.txt", n_g_r_data=6, n_u_g_data=5, n_g_r_SP=4, n_u_g_SP=3,
                     hot_stars_filename=None):
     """
-    :param titre: titre que l'on veut donner au graphique
-    :param data_filename: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
-    :param SP_filename: nom du fichier qui contient des coordonnees de points de la sequence principale
-    :param n_g_r_data: numero de la colonne correspondant a g-r dans le fichier data_filename
-    :param n_u_g_data: numero de la colonne correspondant a u-g dans le fichier data_filename
-    :param n_g_r_SP: numero de la colonne correspondant a g-r dans le fichier SP_filename
-    :param n_u_g_SP: numero de la colonne correspondant a u-g dans le fichier SP_filename
-    :param hot_stars_filename: facultatif, nom du fichier contenant uniquement les donnees des etoiles chaudes
-    dans data_filename pour afficher d'une autre couleur les points correspondant aux etoiles chaudes
-    :return: None, trace le graphique u-g vs g-r avec la sequance principale et la ligne B3V
+    :param Title: title of the graphic
+    :param data_filename: name of the file, where the input data (the stars) are
+    :param SP_filename: name of the file where the points of the main sequence are
+    :param n_g_r_data: the number of the column (g-r) in the file 'data_filename'
+    :param n_u_g_data: the number of the column (u-g) in the file 'data_filename'
+    :param n_g_r_SP: the number of the column (g-r) in the file 'SP_filename' (to plot the main sequence)
+    :param n_u_g_SP: the number of the column (u-g) in the file 'SP_filename' (to plot the main sequence)
+    :param hot_stars_filename: optional,( only if we want ) name of the file with only the data of the hot stars in 'data_filename', to plot with an other color the hot stars
+    :return: None, plot graphic u-g vs g-r, the main sequence, B3V line
     """
 
-    # recupere donnees
-    g_r_data, u_g_data = recupere_magnitudes(data_filename, n_g_r_data, n_u_g_data)
-    g_r_SP, u_g_SP = recupere_magnitudes(SP_filename, n_g_r_SP, n_u_g_SP)
+    # get data
+    g_r_data, u_g_data = get_magnitudes(data_filename, n_g_r_data, n_u_g_data)
+    g_r_SP, u_g_SP = get_magnitudes(SP_filename, n_g_r_SP, n_u_g_SP)
 
-    # parametre le graphique
+    # settings of the graph
     plt.xlabel('g-r')
     plt.ylabel('u-g')
     plt.gca().invert_yaxis()
 
-    # trace u-g vs g-r avec nos donnees
-    plt.plot(g_r_data, u_g_data, '.', c='red', label='Étoiles')
+    # plot u-g vs g-r of the stars with our data
+    plt.plot(g_r_data, u_g_data, '.', c='red', label='Stars')
     if hot_stars_filename != None:
-        g_r_hot_stars, u_g_hot_stars = recupere_magnitudes(hot_stars_filename, n_g_r_data, n_u_g_data)
-        plt.plot(g_r_hot_stars, u_g_hot_stars, '.', c='blue', label='Étoiles chaudes')
+        g_r_hot_stars, u_g_hot_stars = get_magnitudes(hot_stars_filename, n_g_r_data, n_u_g_data)
+        plt.plot(g_r_hot_stars, u_g_hot_stars, '.', c='blue', label='Hot Stars')
 
-    # trace ligne B3V
+    # plot B3V_line
     m = min([x for x in g_r_data if x != None])
     M = max([y for y in g_r_data if y != None])
     x = np.linspace(m, M, 100)
-    plt.plot(x, B3V_eq(x), c='orange', label='Ligne B3V')
+    plt.plot(x, B3V_line(x), c='orange', label='B3V line')
 
-    # trace sequence principale
-    plt.plot(g_r_SP, u_g_SP, c='black', label='Séquence principale')
+    # plot the main sequence
+    plt.plot(g_r_SP, u_g_SP, c='black', label='Main Sequence')
 
-    # met le titre et affiche le tout
-    title(titre)
+    # add title and legends
+    title(Title)
     plt.legend()
     plt.show()
 
@@ -365,8 +367,8 @@ def save_plot(output_file, input_file, titre, SP_filename="SP.txt", output_folde
         output_file = output_folder + "/" + output_file
 
     # recupere donnees
-    g_r_data, u_g_data = recupere_magnitudes(input_file, n_g_r_data, n_u_g_data)
-    g_r_SP, u_g_SP = recupere_magnitudes(SP_filename, n_g_r_SP, n_u_g_SP)
+    g_r_data, u_g_data = get_magnitudes(input_file, n_g_r_data, n_u_g_data)
+    g_r_SP, u_g_SP = get_magnitudes(SP_filename, n_g_r_SP, n_u_g_SP)
 
     # parametre le graphique
     plt.xlabel('g-r')
@@ -376,14 +378,14 @@ def save_plot(output_file, input_file, titre, SP_filename="SP.txt", output_folde
     # trace u-g vs g-r avec nos donnees
     plt.plot(g_r_data, u_g_data, '.', c='red', label='Etoiles')
     if input_file_hot_stars != None:
-        g_r_hot_stars, u_g_hot_stars = recupere_magnitudes(input_file_hot_stars, n_g_r_data, n_u_g_data)
+        g_r_hot_stars, u_g_hot_stars = get_magnitudes(input_file_hot_stars, n_g_r_data, n_u_g_data)
         plt.plot(g_r_hot_stars, u_g_hot_stars, '.', c='blue', label='Etoiles chaudes')
 
     # trace ligne B3V
     m = min([x for x in g_r_data if x != None])
     M = max([y for y in g_r_data if y != None])
     x = np.linspace(m, M, 100)
-    plt.plot(x, B3V_eq(x), c='orange', label='Ligne B3V')
+    plt.plot(x, B3V_line(x), c='orange', label='Ligne B3V')
 
     # trace sequence principale
     plt.plot(g_r_SP, u_g_SP, c='black', label='Séquence principale')
