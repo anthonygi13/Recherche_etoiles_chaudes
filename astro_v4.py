@@ -1,6 +1,6 @@
 # S3 Projet 2017
 # Licence MPCI
-# Authors:   Bratulic Melanie, mail:
+# Authors:   Bratulic Melanie, mail: m.bratulic@laposte.net
 #            Durand-Viel Albane, mail:
 #            Giraudo Anthony, mail:
 #            Marinho Louise, mail : louise.marinho@free.fr
@@ -12,10 +12,11 @@ import os
 
 
 def B3V_line(x):
-    # a changer
+    # Melanie
     """
-    :param x: abcsisse du point de la ligne B3V dont on veut obtenir l'ordonnee
-    :return: ordonnee du point de la ligne B3V correspondant a l'abscisse x (dans un graphique u-g vs g-r)
+    Function which allow plotting the B3V line on the graph
+    :param x: abscissa of a point of the line
+    :return: ordinate of the point which abscissa is x in a graph of (u-g) as a function of (g-r)
     """
 
     return 0.9909 * x - 0.8901
@@ -74,16 +75,16 @@ def lines(filename, n_c1, n_c2):
 
 def get_magnitudes(filename, n_g_r, n_u_g):
     """
-    :param filename: nom du fichier qui contient les donnees des etoiles dont on veut connaitre
-    les caracteristique u-g et g-r
-    :param n_g_r: numero de la colonne correspondant a g-r dans le fichier d'entree
-    :param n_u_g: numero de la colonne correspondant a u-g dans le fichier d'entree
-    :return: liste avec les donnees de la colonne g-r dans le fichier filename, et une autre avec celles de u-g
+    Mélanie
+    :param filename: name of the file (txt format) containing a table with the data of the scars
+    :param n_g_r: index of the column containing the (g-r) characteristic in the file filename
+    :param n_u_g: index of the column containing the (u-g) characteristic in the file filename
+    :return: 2 lists : the first one containing the data of the (g-r) column in the file filename, and the other one the (u-g) column
     """
 
     colonne_u_g = []
     colonne_g_r = []
-    for g_r, u_g in lines(filename, n_g_r, n_u_g):
+    for g_r, u_g in lines(filename, n_g_r, n_u_g): #for each line of the file filename, takes the characteristic (g-r) and (u-g)
         if u_g is not None: colonne_u_g.append(float(u_g))
         else: colonne_u_g.append(u_g)
         if g_r is not None: colonne_g_r.append(float(g_r))
@@ -245,6 +246,19 @@ def plot_graphic(Title, data_filename, SP_filename="SP.txt", n_g_r_data=6, n_u_g
 
 def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
                 survey="DSS2-red", ra="", dec=""):
+    """
+    Mélanie
+    :param region_name:
+    :param output_file:
+    :param x_size:
+    :param y_size:
+    :param output_folder:
+    :param coordinate_system:
+    :param survey:
+    :param ra:
+    :param dec:
+    :return:
+    """
 
     output_file_for_terminal = ""
     for char in output_file:
