@@ -2,8 +2,8 @@
 #            Durand-Viel Albane, mail:
 #            Giraudo Anthony, mail: anthonygi13@hotmail.fr
 #            Marinho Louise, mail : louise.marinho@free.fr
-# Creation date : 11/04/2017
-# File : astro_essai.py
+# Creation date : 11/05/2017
+# File : astro_v5.py
 
 from pylab import *
 import os
@@ -52,10 +52,13 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
     comentary_char c au debut d une ligne ou ca y est pas
     column_separator c un seul caractere
     begining str c la ligne juste avant le debut
-    :param filename: name of file, where the data of the stars are. We want the values of c1 and c2
-    :param n_c1: number of column c1 in our file
-    :param n_c2: number of column c1 in our file
-    :return: nothing, it's a generator
+    :param filename:
+    :param n_c1:
+    :param n_c2:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :return:
     """
 
     data = open(filename, 'r')
@@ -97,10 +100,13 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
 
 def get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None):
     """
-    :param filename: name of the file (txt format) containing a table with the data of the scars
-    :param n_g_r: index of the column containing the (g-r) characteristic in the file filename
-    :param n_u_g: index of the column containing the (u-g) characteristic in the file filename
-    :return: 2 lists : the first one containing the data of the (g-r) column in the file filename, and the other one the (u-g) column
+    :param filename:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :return:
     """
 
     u_g_column = []
@@ -115,12 +121,15 @@ def get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str=None, 
 
 def find_hot_stars(input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None):
     """
-    :param input_file: input file with lines of data separated by
-    :param output_file: nom du fichier qui contiendra les donnees correspondant uniquement aux etoiles chaudes
-    :param n_u_g: numero de la colonne correspondant a u-g dans le fichier d'entree
-    :param n_g_r: numero de la colonne correspondant a g-r dans le fichier d'entree
-    :param output_folder: nom du dossier dans lequel on va travailler (la ou y a le fichier d entree et la ou on veut mettre le fichier de sortie)
-    :return: None : cree juste le nouveau fichier dans le meme repertoire que celui dans lequel se trouve le programme
+    :param input_file:
+    :param output_file:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :return:
     """
 
     if output_folder is not None:
@@ -189,13 +198,17 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g, column_separator, begi
 
 def write_reg_file_for_ds9(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None, circle_size=5, circle_color="green"):
     """
-    moi
-    :param input_file: fichier avec les etoiles chaudes
-    :param output_file: fichier en .reg
-    :param n_alpha: colonne avec les coordonees alpha de l'etoile
-    :param n_delta: colonne avec les coordonnees delta de l'etoile
-    :param output_folder: nom du dossier dans lequel on va travailler (la ou y a le fichier d entree et la ou on veut mettre le fichier de sortie)
-    :return: None
+    :param input_file:
+    :param output_file:
+    :param n_alpha:
+    :param n_delta:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :param circle_size:
+    :param circle_color:
+    :return:
     """
 
     if output_folder is not None:
@@ -231,15 +244,20 @@ def write_reg_file_for_ds9(input_file, output_file, n_alpha, n_delta, column_sep
 def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None,
                     hot_stars_filename=None, n_g_r_hot_stars=None, n_u_g_hot_stars=None, column_separator_hot_stars=None, begining_str_hot_stars=None, comentary_char_hot_stars=None):
     """
-    :param title: plot title
-    :param data_filename: name of the file, where the input data (the stars) are
-    :param SP_filename: name of the file where the points of the main sequence are
-    :param n_g_r_data: the number of the column (g-r) in the file 'data_filename'
-    :param n_u_g_data: the number of the column (u-g) in the file 'data_filename'
-    :param n_g_r_SP: the number of the column (g-r) in the file 'SP_filename' (to plot the main sequence)
-    :param n_u_g_SP: the number of the column (u-g) in the file 'SP_filename' (to plot the main sequence)
-    :param hot_stars_filename: optional, name of the file with only the data of the hot stars in 'data_filename', to plot with an other color the hot stars
-    :return: None, plot graphic u-g vs g-r, the main sequence, B3V line
+    :param title:
+    :param filename:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param hot_stars_filename:
+    :param n_g_r_hot_stars:
+    :param n_u_g_hot_stars:
+    :param column_separator_hot_stars:
+    :param begining_str_hot_stars:
+    :param comentary_char_hot_stars:
+    :return:
     """
 
     g_r, u_g = get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str, comentary_char)
@@ -280,18 +298,22 @@ def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_st
 def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None,
               input_file_hot_stars=None, n_g_r_hot_stars=None, n_u_g_hot_stars=None, column_separator_hot_stars=None, begining_str_hot_stars=None, comentary_char_hot_stars=None):
     """
-    moi
-    :param titre: titre que l'on veut donner au graphique
-    :param input_file: nom du fichier qui contient les donnees d'entree correspondant a des etoiles
-    :param SP_filename: nom du fichier qui contient des coordonnees de points de la sequence principale
-    :param output_folder: nom du dossier dans lequel on travaille (la ou y a les catalogues d entree (sauf SP) et la ou on met le fichier de sortie)
-    :param n_g_r_data: numero de la colonne correspondant a g-r dans le fichier data_filename
-    :param n_u_g_data: numero de la colonne correspondant a u-g dans le fichier data_filename
-    :param n_g_r_SP: numero de la colonne correspondant a g-r dans le fichier SP_filename
-    :param n_u_g_SP: numero de la colonne correspondant a u-g dans le fichier SP_filename
-    :param input_file_hot_stars: facultatif, nom du fichier contenant uniquement les donnees des etoiles chaudes
-    dans data_filename pour afficher d'une autre couleur les points correspondant aux etoiles chaudes
-    :return: None, trace le graphique u-g vs g-r avec la sequence principale et la ligne B3V
+    :param title:
+    :param input_file:
+    :param output_file:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :param input_file_hot_stars:
+    :param n_g_r_hot_stars:
+    :param n_u_g_hot_stars:
+    :param column_separator_hot_stars:
+    :param begining_str_hot_stars:
+    :param comentary_char_hot_stars:
+    :return:
     """
 
     if output_folder is not None:
@@ -352,11 +374,6 @@ def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, be
 def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
                 survey="DSS2-red", ra=None, dec=None):
     """
-    Mélanie
-    #rentrer soit region_name, soit ra et dec
-    #coordinate systeme c soit "J2000" soit "B1950"
-    #survey c soit "DSS2-red", soit "DSS-1" soit "DSS-2-blue" soit "DSS-2-infrared"
-    #mettre le lien du site en commentaire
     :param region_name:
     :param output_file:
     :param x_size:
@@ -364,8 +381,8 @@ def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None
     :param output_folder:
     :param coordinate_system:
     :param survey:
-    :param ra: (hh mm ss)
-    :param dec: ([+ or -]dd mm ss)
+    :param ra:
+    :param dec:
     :return:
     """
 
@@ -433,14 +450,16 @@ def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None
 
 def recup_catalogue(region_name, output_file, cone_size, output_folder=None, size_unit='arcmin'):
     """
-    mettre en commentaire tout ce que ça telecharge et le lien du site
     :param region_name:
     :param output_file:
-    :param cone_size: (rayon du cone)
+    :param cone_size:
     :param output_folder:
     :param size_unit:
     :return:
+    ajouter coordonnees qu on pourrait mettre a la place du nom de la region, en parametre
+    mettre en commentaire tout ce que ça telecharge et le lien du site
     """
+
     output_file_for_terminal = ""
     for char in output_file:
         if char == " ":
@@ -485,6 +504,26 @@ def recup_catalogue(region_name, output_file, cone_size, output_folder=None, siz
 
 
 def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator=";", begining_str="--", comentary_char=None, circle_size=5, circle_color="green", output_folder=None, output_file_data=None, output_file_hot_stars_data=None, output_file_reg=None, output_file_fits=None, output_file_plot=None, output_file_sky_picture=None, plot_title=None):
+    """
+    :param region_name:
+    :param cone_size:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param circle_size:
+    :param circle_color:
+    :param output_folder:
+    :param output_file_data:
+    :param output_file_hot_stars_data:
+    :param output_file_reg:
+    :param output_file_fits:
+    :param output_file_plot:
+    :param output_file_sky_picture:
+    :param plot_title:
+    :return:
+    """
 
     region_name_for_filenames = ""
     for char in region_name:
