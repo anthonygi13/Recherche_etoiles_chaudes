@@ -448,7 +448,7 @@ def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None
         + "&mime-type=download-fits&statsmode=WEBFORM' -O " + output_file_for_terminal)
 
 
-def recup_catalogue(region_name, output_file, cone_size, output_folder=None, size_unit='arcmin'):
+def recup_catalogue(position, region_name, output_file, cone_size, coordinate_system = "J2000", output_folder=None, size_unit='arcmin'):
     """
     :param region_name:
     :param output_file:
@@ -459,6 +459,18 @@ def recup_catalogue(region_name, output_file, cone_size, output_folder=None, siz
     ajouter coordonnees qu on pourrait mettre a la place du nom de la region, en parametre
     mettre en commentaire tout ce que ça telecharge et le lien du site
     """
+
+    if position is None:
+        position = ""
+    if region_name is None:
+        region_name = ""
+
+    assert position != "" or region_name != ""
+
+    if position != "":
+        target = position
+    else:
+        target = region_name
 
     output_file_for_terminal = ""
     for char in output_file:
@@ -486,19 +498,19 @@ def recup_catalogue(region_name, output_file, cone_size, output_folder=None, siz
             os.system("mkdir " + output_folder_for_terminal)
         output_file_for_terminal = output_folder_for_terminal + "/" + output_file_for_terminal
 
-    region_name_for_link = ""
-    region_name_for_terminal = ""
-    for char in region_name:
+
+    target_for_link = ""
+    for char in target:
         if char == " ":
-            region_name_for_link += "+"
-            region_name_for_terminal += "\ "
+            target_for_link += "+"
+        elif char == "+":
+            target_for_link += "%2b"
         else:
-            region_name_for_link += char
-            region_name_for_terminal += char
+            target_for_link += char
 
     os.system(
         "wget '" + 'http://vizier.u-strasbg.fr/viz-bin/asu-tsv/VizieR?-source=II/341/&-oc.form=dec&-out.max=unlimited&-c='
-        + region_name_for_link + '&-c.eq=J2000&-c.r=' + str(cone_size) + '&-c.u=' + size_unit
+        + target_for_link + '&-c.eq=' + coordinate_system + '&-c.r=' + str(cone_size) + '&-c.u=' + size_unit
         + '&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=u-g&-out=g-r2&-out=umag&-out=e_umag&-out=gmag&-out=e_gmag&-out=r2mag&-out=e_r2mag&-out=Hamag&-out=e_Hamag&-out=rmag&-out=e_rmag&-out=imag&-out=e_imag&-out.add=_Glon,_Glat&-oc.form=dec&-out.form=;+-Separated-Values'
         + "' -O " + output_file_for_terminal)
 
@@ -548,10 +560,10 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
     if output_file_fits is None or output_file_fits == "": output_file_fits = region_name_for_filenames + ".fits"
     if output_file_plot is None or output_file_plot == "": output_file_plot = region_name_for_filenames + ".plot.png"
     if output_file_sky_picture is None or output_file_sky_picture == "": output_file_sky_picture = region_name_for_filenames + ".sky_picture.png"
-    if plot_title is None or plot_title == "":
+    if plot_title is None:
         plot_title = region_name + " (cone search : " + str(cone_size) + " arcmin)"
 
-    recup_catalogue(region_name, output_file_data, cone_size, output_folder)
+    recup_catalogue(None, region_name, output_file_data, cone_size, output_folder)
     get_sky_picture(region_name, output_file_fits, 2 * cone_size, 2 * cone_size, output_folder)
     find_hot_stars(output_file_data, output_file_hot_stars_data, n_g_r, n_u_g, column_separator=column_separator, begining_str=begining_str, comentary_char=comentary_char, output_folder=output_folder)
     write_reg_file_for_ds9(output_file_hot_stars_data, output_file_reg, n_alpha=3, n_delta=4, column_separator=column_separator, begining_str=begining_str,
