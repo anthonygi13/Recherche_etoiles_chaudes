@@ -1,0 +1,97 @@
+#
+#   VizieR Astronomical Server vizier.u-strasbg.fr
+#    Date: 2017-11-13T09:15:23 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	"internal=-source=II/341/	
+#INFO	stdin=-oc.form=dec	
+#INFO	stdin=-out.max=unlimited	
+#INFO	stdin=-c=RCW49	
+#INFO	stdin=-c.eq=J2000	
+#INFO	stdin=-c.r=2	
+#INFO	stdin=-c.u=arcmin	
+#INFO	stdin=-c.geom=r	
+#INFO	stdin=-out=RAJ2000	
+#INFO	stdin=-out=DEJ2000	
+#INFO	stdin=-out=u-g	
+#INFO	stdin=-out=g-r2	
+#INFO	stdin=-out=umag	
+#INFO	stdin=-out=e_umag	
+#INFO	stdin=-out=gmag	
+#INFO	stdin=-out=e_gmag	
+#INFO	stdin=-out=r2mag	
+#INFO	stdin=-out=e_r2mag	
+#INFO	stdin=-out=Hamag	
+#INFO	stdin=-out=e_Hamag	
+#INFO	stdin=-out=rmag	
+#INFO	stdin=-out=e_rmag	
+#INFO	stdin=-out=imag	
+#INFO	stdin=-out=e_imag	
+#INFO	stdin=-out.add=_Glon,_Glat	
+#INFO	stdin=-oc.form=dec	
+#INFO	stdin=-out.form=; -Separated-Values	
+#INFO	out_form(; -Separated-Values)=0x0	
+#INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VOTx23683	
+#INFO	show_infos=0x8000	
+#INFO	-out.max=unlimited	
+#INFO	queryParameters=25	
+#-oc.form=dec
+#-source=II/341/
+#-out.max=unlimited
+#-c=RCW49
+#-c.eq=J2000
+#-c.r=2
+#-c.u=arcmin
+#-c.geom=r
+#-out=RAJ2000
+#-out=DEJ2000
+#-out=u-g
+#-out=g-r2
+#-out=umag
+#-out=e_umag
+#-out=gmag
+#-out=e_gmag
+#-out=r2mag
+#-out=e_r2mag
+#-out=Hamag
+#-out=e_Hamag
+#-out=rmag
+#-out=e_rmag
+#-out=imag
+#-out=e_imag
+#-out.add=_Glon,_Glat
+#
+#INFO	-c=156.060830-57.782780,rm=2.	
+#
+
+#RESOURCE=yCat_2341
+#Name: II/341
+#Title: VPHAS+ DR2 survey (Drew+, 2016)
+#Coosys	G:	galactic
+#Table	II_341_vphasp:
+#Name: II/341/vphasp
+#Title: VPHAS+ catalog, output (on a total of 319,126,837 sources)
+#Column	_Glon	(F8.4)	Galactic longitude (computed by VizieR, not part of the original data)	[ucd=pos.galactic.lon]
+#Column	_Glat	(F8.4)	Galactic latitude (computed by VizieR, not part of the original data)	[ucd=pos.galactic.lat]
+#Column	RAJ2000	(F9.5)	Right Ascension in decimal degrees (J2000) (RAJ2000)	[ucd=pos.eq.ra;meta.main]
+#Column	DEJ2000	(F9.5)	Declination in decimal degrees (J2000) (DEJ2000)	[ucd=pos.eq.dec;meta.main]
+#Column	u-g	(F5.2)	? (u-g) colour index, formed by subtracting columns u and g (u_g)	[ucd=phot.color;em.opt.U;em.opt.B]
+#Column	g-r2	(F5.2)	? (g-r2) colour index, formed by subtracting columns g and r2 (g_r2)	[ucd=phot.color;em.opt.B;em.opt.R]
+#Column	umag	(F5.2)	? Default u-band VEGA magnitude obtained using PSF fitting (u)	[ucd=phot.mag;em.opt.U]
+#Column	e_umag	(F5.2)	? Statistical uncertainty for u, not including systematics (err_u)	[ucd=stat.error;phot.mag;em.opt.U]
+#Column	gmag	(F5.2)	? Default g-band VEGA magnitude obtained using PSF fitting (g)	[ucd=phot.mag;em.opt.B]
+#Column	e_gmag	(F5.2)	? Statistical uncertainty for g, not including systematics (err_g)	[ucd=stat.error;phot.mag;em.opt.B]
+#Column	r2mag	(F5.2)	? Second r-band VEGA magnitude obtained using PSF fitting (r2)	[ucd=phot.mag;em.opt.R]
+#Column	e_r2mag	(F5.2)	? Statistical uncertainty for r2, not including systematics (err_r2)	[ucd=stat.error;phot.mag]
+#Column	Hamag	(F5.2)	? Default H-alpha VEGA magnitude obtained using PSF fitting (ha)	[ucd=phot.flux;em.line.Halpha]
+#Column	e_Hamag	(F5.2)	? Statistical uncertainty for ha, not including systematics (err_ha)	[ucd=stat.error;phot.mag;em.IR.H]
+#Column	rmag	(F5.2)	? Default r-band VEGA magnitude obtained using PSF fitting (r)	[ucd=phot.mag;em.opt.R]
+#Column	e_rmag	(F5.2)	? Statistical uncertainty for r, not including systematics (err_r)	[ucd=stat.error;phot.mag;em.opt.R]
+#Column	imag	(F5.2)	? Default i-band VEGA magnitude obtained using PSF fitting (i)	[ucd=phot.mag;em.opt.I]
+#Column	e_imag	(F5.2)	? Statistical uncertainty for i, not including systematics (err_i)	[ucd=stat.error;phot.mag;em.opt.I]
+_Glon;_Glat;RAJ2000;DEJ2000;u-g;g-r2;umag;e_umag;gmag;e_gmag;r2mag;e_r2mag;Hamag;e_Hamag;rmag;e_rmag;imag;e_imag
+deg;deg;deg;deg;mag;mag;mag;mag;mag;mag;mag;mag;mag;mag;mag;mag;mag;mag
+--------;--------;---------;---------;-----;-----;-----;-----;-----;-----;-----;-----;-----;-----;-----;-----;-----;-----

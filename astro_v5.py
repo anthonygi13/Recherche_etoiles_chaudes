@@ -5,9 +5,17 @@
 # Creation date : 11/05/2017
 # File : astro_v5.py
 
+#a faire : croscorelation avec gaia et fonction qui convertit une chaine de caractere pour le terminal ou pour html
+
+
 from pylab import *
 import os
 
+def extinction_coefficient():
+    return 3.56
+
+def director_coefficient_B3V_line():
+    return 0.9909
 
 def B3V_line(g_r):
     """
@@ -16,7 +24,7 @@ def B3V_line(g_r):
     :return: ordinate of the point which abscissa is x in a graph of (u-g) as a function of (g-r)
     """
 
-    return 0.9909 * g_r - 0.8901
+    return director_coefficient_B3V_line() * g_r - 0.8901
 
 class Main_sequence_points():
     """
@@ -34,6 +42,7 @@ class Main_sequence_points():
 
 def main_sequence(g_r):
     """
+    quand est ce que ca return None ?
     :param g_r: a g-r value
     :return: the theoretic u-g value approximation of a main-sequence star with the inputted g-r value
     """
@@ -52,9 +61,9 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
     comentary_char c au debut d une ligne ou ca y est pas
     column_separator c un seul caractere
     begining str c la ligne juste avant le debut
-    :param filename:
-    :param n_c1:
-    :param n_c2:
+    :param filename : name of file, where the data of the stars are. We want the values of c1 and c2
+    :param n_c1: number of column c1 in our file
+    :param n_c2: number of column c1 in our file
     :param column_separator:
     :param begining_str:
     :param comentary_char:
@@ -72,7 +81,7 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
 
     while line != "":
 
-        if comentary_char != None and comentary_char != "" and line[0] != comentary_char:
+        if (comentary_char is None or comentary_char == "") or line[0] != comentary_char:
             c1 = ""
             c2 = ""
             column_number = 1
@@ -100,13 +109,13 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
 
 def get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None):
     """
-    :param filename:
-    :param n_g_r:
-    :param n_u_g:
+    :param filename: name of the file (txt format) containing a table with the data of the scars
+    :param n_g_r: index of the column containing the (g-r) characteristic in the file filename
+    :param n_u_g: index of the column containing the (u-g) characteristic in the file filename
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :return:
+    :return: 2 lists : the first one containing the data of the (g-r) column in the file filename, and the other one the (u-g) column
     """
 
     u_g_column = []
@@ -169,7 +178,7 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g, column_separator, begi
         if i % 10000 == 0:
             print(i, " lines already read")
 
-        if comentary_char is not None and comentary_char != "" and line[0] != comentary_char:
+        if (comentary_char is None or comentary_char == "") or line[0] != comentary_char:
             u_g = ""
             g_r = ""
             column_number = 1
@@ -244,14 +253,14 @@ def write_reg_file_for_ds9(input_file, output_file, n_alpha, n_delta, column_sep
 def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None,
                     hot_stars_filename=None, n_g_r_hot_stars=None, n_u_g_hot_stars=None, column_separator_hot_stars=None, begining_str_hot_stars=None, comentary_char_hot_stars=None):
     """
-    :param title:
-    :param filename:
-    :param n_g_r:
-    :param n_u_g:
+    :param title: title of the graphic
+    :param filename: name of the file, where the input data (the stars) are
+    :param n_g_r: the number of the column (g-r) in the file 'filename'
+    :param n_u_g: the number of the column (u-g) in the file 'filename'
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param hot_stars_filename:
+    :param hot_stars_filename: optional, name of the file with only the data of the hot stars in 'data_filename', to plot with an other color the hot stars
     :param n_g_r_hot_stars:
     :param n_u_g_hot_stars:
     :param column_separator_hot_stars:
@@ -260,6 +269,7 @@ def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_st
     :return:
     """
 
+    #get data
     g_r, u_g = get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str, comentary_char)
     plt.plot(g_r, u_g, '.', c='red', label='Stars')
 
@@ -287,7 +297,7 @@ def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_st
     plt.plot(Main_sequence_points().g_r_values, Main_sequence_points().u_g_values, c='black', label='Main sequence')
 
     # graph settings
-    title(title)
+    plt.title(title)
     plt.xlabel('g-r')
     plt.ylabel('u-g')
     plt.gca().invert_yaxis()
@@ -363,7 +373,7 @@ def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, be
     plt.plot(Main_sequence_points().g_r_values, Main_sequence_points().u_g_values, c='black', label='Main sequence')
 
     # graph settings
-    title(title)
+    plt.title(title)
     plt.xlabel('g-r')
     plt.ylabel('u-g')
     plt.gca().invert_yaxis()
@@ -460,6 +470,8 @@ def recup_catalogue(position, region_name, output_file, cone_size, coordinate_sy
     mettre en commentaire tout ce que ça telecharge et le lien du site
     """
 
+    assert size_unit == "deg" or size_unit == "arcmin" or size_unit == "arcsec"
+
     if position is None:
         position = ""
     if region_name is None:
@@ -515,7 +527,9 @@ def recup_catalogue(position, region_name, output_file, cone_size, coordinate_sy
         + "' -O " + output_file_for_terminal)
 
 
-def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator=";", begining_str="--", comentary_char=None, circle_size=5, circle_color="green", output_folder=None, output_file_data=None, output_file_hot_stars_data=None, output_file_reg=None, output_file_fits=None, output_file_plot=None, output_file_sky_picture=None, plot_title=None):
+def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator=";", begining_str="--", comentary_char=None,
+                    circle_size=5, circle_color="green", output_folder=None, output_file_data=None, output_file_hot_stars_data=None,
+                    output_file_reg=None, output_file_fits=None, output_file_plot=None, output_file_sky_picture=None, plot_title=None):
     """
     :param region_name:
     :param cone_size:
@@ -555,6 +569,16 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
         else:
             output_folder_for_terminal += char
     if output_file_data is None or output_file_data == "": output_file_data = region_name_for_filenames + ".data.txt"
+    output_file_data_for_terminal = ""
+    for char in output_file_data:
+        if char == " ":
+            output_file_data_for_terminal += "\ "
+        elif char == "(":
+            output_file_data_for_terminal += "\("
+        elif char == ")":
+            output_file_data_for_terminal += "\)"
+        else:
+            output_file_data_for_terminal += char
     if output_file_hot_stars_data is None or output_file_hot_stars_data == "": output_file_hot_stars_data = region_name_for_filenames + ".hot_stars_data.txt"
     if output_file_reg is None or output_file_reg == "": output_file_reg = region_name_for_filenames + ".reg"
     if output_file_fits is None or output_file_fits == "": output_file_fits = region_name_for_filenames + ".fits"
@@ -563,14 +587,148 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
     if plot_title is None:
         plot_title = region_name + " (cone search : " + str(cone_size) + " arcmin)"
 
-    recup_catalogue(None, region_name, output_file_data, cone_size, output_folder)
+    recup_catalogue(None, region_name, output_file_data + "old", cone_size, output_folder=output_folder)
     get_sky_picture(region_name, output_file_fits, 2 * cone_size, 2 * cone_size, output_folder)
+    write_extinction(output_file_data + "old", output_file_data, n_g_r, n_u_g, column_separator, begining_str, comentary_char, output_folder)
+    os.system("rm " + output_file_data + "old")
     find_hot_stars(output_file_data, output_file_hot_stars_data, n_g_r, n_u_g, column_separator=column_separator, begining_str=begining_str, comentary_char=comentary_char, output_folder=output_folder)
     write_reg_file_for_ds9(output_file_hot_stars_data, output_file_reg, n_alpha=3, n_delta=4, column_separator=column_separator, begining_str=begining_str,
                            comentary_char=comentary_char, output_folder=output_folder, circle_size=circle_size, circle_color=circle_color)
-    save_plot(plot_title, output_file_data, output_file_plot, n_g_r, n_u_g, column_separator, begining_str=begining_str, comentary_char=comentary_char, output_folder=output_folder,
+    save_plot(plot_title, output_file_data, output_file_plot, n_g_r, n_u_g, column_separator=column_separator, begining_str=begining_str, comentary_char=comentary_char, output_folder=output_folder,
               input_file_hot_stars=output_file_hot_stars_data, n_g_r_hot_stars=n_g_r, n_u_g_hot_stars=n_u_g, column_separator_hot_stars=column_separator, begining_str_hot_stars=begining_str, comentary_char_hot_stars=comentary_char)
     oldpwd = os.getcwd()
     os.chdir(output_folder)
     os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture + " -exit")
     os.chdir(oldpwd)
+
+
+def find_g_r_0_u_g_0(g_r, u_g):
+    """
+    :param g_r:
+    :param u_g:
+    :return:
+    """
+
+    a = director_coefficient_B3V_line()
+    b = u_g - a * g_r
+
+    main_sequence_points = Main_sequence_points()
+    for i in range(0, main_sequence_points.point_number - 1):
+        a_ms = (main_sequence_points.u_g_values[i + 1] - main_sequence_points.u_g_values[i]) / (main_sequence_points.g_r_values[i + 1] - main_sequence_points.g_r_values[i])
+        b_ms = main_sequence_points.u_g_values[i] - a_ms * main_sequence_points.g_r_values[i]
+        if a == a_ms:
+            if b == b_ms:
+                return main_sequence_points.g_r_values[i], main_sequence_points.u_g_values[i]
+            else: return None, None
+        else:
+            g_r_intersection = (b_ms - b) / (a - a_ms)
+            if min([main_sequence_points.u_g_values[i], main_sequence_points.u_g_values[i + 1]]) <= g_r_intersection and g_r_intersection >= max([main_sequence_points.u_g_values[i], main_sequence_points.u_g_values[i + 1]]):
+                if main_sequence(g_r_intersection) is None:
+                    return None, None
+                else:
+                    return g_r_intersection, main_sequence(g_r_intersection)
+
+
+def extinction_g_r(g_r, g_r_0):
+    """
+    :param g_r:
+    :param g_r_0:
+    :return:
+    """
+
+    return extinction_coefficient() * (g_r - g_r_0)
+
+def extinction_u_g(u_g, u_g_0):
+    """
+    :param u_g:
+    :param u_g_0:
+    :return:
+    """
+
+    return extinction_coefficient() * (u_g - u_g_0)
+
+def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None):
+    """
+    :param input_file:
+    :param output_file:
+    :param n_g_r:
+    :param n_u_g:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :return:
+    """
+
+    if output_folder is not None:
+        output_folder_for_terminal = ""
+        for char in output_folder:
+            if char == " ":
+                output_folder_for_terminal += "\ "
+            elif char == "(":
+                output_folder_for_terminal += "\("
+            elif char == ")":
+                output_folder_for_terminal += "\)"
+            else:
+                output_folder_for_terminal += char
+        if not os.path.exists(output_folder):
+            os.system("mkdir " + output_folder_for_terminal)
+        input_file = output_folder + "/" + input_file
+        output_file = output_folder + "/" + output_file
+
+    data = open(input_file, 'r')
+    nfile = open(output_file, "w")
+
+    line = data.readline()
+
+    if begining_str is not None and begining_str != "":
+        while line[0:len(begining_str)] != begining_str:
+            nfile.write(line)
+            line = data.readline()
+
+    nfile.write(line)
+    line = data.readline()
+
+    i = 0
+
+    while line != "":
+
+        i += 1
+        if i % 10000 == 0:
+            print(i, " lines already read")
+
+        if (comentary_char is None or comentary_char == "") or line[0] != comentary_char:
+            u_g = ""
+            g_r = ""
+            column_number = 1
+            for char in line:
+                if char == column_separator:
+                    column_number += 1
+                if column_number == n_u_g:
+                    if char != " " and char != column_separator:
+                        u_g += char
+                elif column_number == n_g_r:
+                    if char != " " and char != column_separator:
+                        g_r += char
+                if column_number > max([n_u_g, n_g_r]):
+                    break
+            if u_g != "" and g_r != "":
+                g_r_0, u_g_0 = find_g_r_0_u_g_0(float(g_r), float(u_g))
+                if u_g_0 is not None and g_r_0 is not None:
+####################################### la erreur !: virer le \n a la fin de la ligne avant concatenation #################################""
+                    nfile.write(line + column_separator + str(g_r_0) + column_separator + str(u_g_0) + column_separator + str(extinction_g_r(float(g_r), g_r_0)) + column_separator + str(extinction_u_g(float(u_g), u_g_0)))
+                else:
+                    nfile.write(line + column_separator + "" + column_separator + "" + column_separator + "" + column_separator + "")
+            else:
+                nfile.write(
+                    line + column_separator + "" + column_separator + "" + column_separator + "" + column_separator + "")
+
+        if comentary_char is not None and comentary_char != "" and line[0] == comentary_char:
+            nfile.write(line)
+
+        line = data.readline()
+
+    data.close()
+    nfile.close()
+
+analyser_region("RCW49", 2)
