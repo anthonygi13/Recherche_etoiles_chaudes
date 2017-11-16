@@ -1,11 +1,11 @@
 # Authors:   Bratulic Melanie, mail: m.bratulic@laposte.net
-#            Durand-Viel Albane, mail:
+#            Durand-Viel Albane, mail:albane.durand-viel@laposte.net
 #            Giraudo Anthony, mail: anthonygi13@hotmail.fr
 #            Marinho Louise, mail : louise.marinho@free.fr
 # Creation date : 11/05/2017
 # File : astro_v5.py
 
-#a faire : croscorelation avec gaia et fonction qui convertit une chaine de caractere pour le terminal ou pour html
+#a faire : crosscorrelation avec gaia et fonction qui convertit une chaine de caracteres pour le terminal ou pour html
 
 
 from pylab import *
@@ -19,7 +19,7 @@ def director_coefficient_B3V_line():
 
 def B3V_line(g_r):
     """
-    Function which allow plotting the B3V line on the graph
+    Function which allows plotting the B3V line on the graph
     :param x: abscissa of a point of the line
     :return: ordinate of the point which abscissa is x in a graph of (u-g) as a function of (g-r)
     """
@@ -600,6 +600,7 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
     os.chdir(output_folder)
     os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture + " -exit")
     os.chdir(oldpwd)
+<<<<<<< Updated upstream
 
 
 def find_g_r_0_u_g_0(g_r, u_g):
@@ -732,3 +733,5 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
     nfile.close()
 
 analyser_region("RCW49", 2)
+=======
+>>>>>>> Stashed changes
