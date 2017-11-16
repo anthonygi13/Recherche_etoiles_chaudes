@@ -64,7 +64,7 @@ def lines(filename, n_c1, n_c2, column_separator, begining_str=None, comentary_c
     :param filename : name of file, where the data of the stars are. We want the values of c1 and c2
     :param n_c1: number of column c1 in our file
     :param n_c2: number of column c1 in our file
-    :param column_separator:
+    :param column_separator: what seperate the column in our data
     :param begining_str:
     :param comentary_char:
     :return:
@@ -130,14 +130,14 @@ def get_magnitudes(filename, n_g_r, n_u_g, column_separator, begining_str=None, 
 
 def find_hot_stars(input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None):
     """
-    :param input_file:
-    :param output_file:
-    :param n_g_r:
-    :param n_u_g:
+    :param input_file: name of the file (txt format) containing a table with the data of the scars
+    :param output_file: name of the file containing the hot stars
+    :param n_g_r: index of the column containing the (g-r) characteristic in the file input_file
+    :param n_u_g: index of the column containing the (u-g) characteristic in the file input_file
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param output_folder:
+    :param output_folder: name of the folder where we want to put our new file output_file
     :return:
     """
 
@@ -207,16 +207,16 @@ def find_hot_stars(input_file, output_file, n_g_r, n_u_g, column_separator, begi
 
 def write_reg_file_for_ds9(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None, circle_size=5, circle_color="green"):
     """
-    :param input_file:
-    :param output_file:
-    :param n_alpha:
-    :param n_delta:
+    :param input_file: name of the file containing the hot stars
+    :param output_file: name of the file containing the hot stars (reg format) for ds9
+    :param n_alpha: index of the column containing the alpha in the file input_file
+    :param n_delta: index of the column containing the delta in the file input_file
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param output_folder:
-    :param circle_size:
-    :param circle_color:
+    :param output_folder: name of the folder where we want to put our new file output_file
+    :param circle_size: the size of the circle in ds9
+    :param circle_color: the color of the circle in ds9
     :return:
     """
 
@@ -308,16 +308,16 @@ def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_st
 def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None,
               input_file_hot_stars=None, n_g_r_hot_stars=None, n_u_g_hot_stars=None, column_separator_hot_stars=None, begining_str_hot_stars=None, comentary_char_hot_stars=None):
     """
-    :param title:
-    :param input_file:
+    :param title: the title of the plot
+    :param input_file: name of the file containing the stars
     :param output_file:
     :param n_g_r:
     :param n_u_g:
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param output_folder:
-    :param input_file_hot_stars:
+    :param output_folder: where we want to save the plot
+    :param input_file_hot_stars: name of the file containing the hot stars
     :param n_g_r_hot_stars:
     :param n_u_g_hot_stars:
     :param column_separator_hot_stars:
@@ -384,11 +384,11 @@ def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, be
 def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
                 survey="DSS2-red", ra=None, dec=None):
     """
-    :param region_name:
+    :param region_name: name of the region
     :param output_file:
-    :param x_size:
-    :param y_size:
-    :param output_folder:
+    :param x_size: the size of x for the picture
+    :param y_size: the size of y for the picture
+    :param output_folder: where we want to save the picture
     :param coordinate_system:
     :param survey:
     :param ra:
@@ -460,11 +460,11 @@ def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None
 
 def recup_catalogue(position, region_name, output_file, cone_size, coordinate_system = "J2000", output_folder=None, size_unit='arcmin'):
     """
-    :param region_name:
-    :param output_file:
-    :param cone_size:
-    :param output_folder:
-    :param size_unit:
+    :param region_name: the name of the region
+    :param output_file: the name of the file where we put the data
+    :param cone_size: the size of the cone in the sky where we take the data of the stars
+    :param output_folder: where we want to put our file
+    :param size_unit: the unit of the size
     :return:
     ajouter coordonnees qu on pourrait mettre a la place du nom de la region, en parametre
     mettre en commentaire tout ce que ça telecharge et le lien du site
@@ -531,23 +531,23 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
                     circle_size=5, circle_color="green", output_folder=None, output_file_data=None, output_file_hot_stars_data=None,
                     output_file_reg=None, output_file_fits=None, output_file_plot=None, output_file_sky_picture=None, plot_title=None):
     """
-    :param region_name:
-    :param cone_size:
-    :param n_g_r:
-    :param n_u_g:
+    :param region_name: the name of the region
+    :param cone_size: the size of the cone in the sky we want to analyse
+    :param n_g_r: the number of the column (g-r) in the data file
+    :param n_u_g: the number of the column (u-g) in the data file
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param circle_size:
-    :param circle_color:
-    :param output_folder:
-    :param output_file_data:
-    :param output_file_hot_stars_data:
-    :param output_file_reg:
+    :param circle_size: the size of the circle for ds9
+    :param circle_color: the color of the circle for ds9
+    :param output_folder: the name of the folder where we put all our file
+    :param output_file_data: the name of the file of the stars
+    :param output_file_hot_stars_data: the name of the file of the hot stars
+    :param output_file_reg: the name of the file of the hot stars (reg format
     :param output_file_fits:
     :param output_file_plot:
     :param output_file_sky_picture:
-    :param plot_title:
+    :param plot_title: title of the plot
     :return:
     """
 
