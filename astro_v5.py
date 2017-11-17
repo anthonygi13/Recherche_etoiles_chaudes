@@ -511,9 +511,10 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
 
 def find_g_r_0_u_g_0(g_r, u_g):
     """
-    :param g_r:
-    :param u_g:
-    :return:
+    :param g_r: value of g-r
+    :param u_g: value of g-r
+    :return: g-r0 : the value of g-r of the stars if they were on the main sequence
+             u-g0 : the value of u-g of the stars if they were on the main sequence
     """
 
     a = director_coefficient_B3V_line()
@@ -538,32 +539,32 @@ def find_g_r_0_u_g_0(g_r, u_g):
 
 def extinction_g_r(g_r, g_r_0):
     """
-    :param g_r:
-    :param g_r_0:
-    :return:
+    :param g_r: value of g-r
+    :param g_r_0: value of g-r0
+    :return: the extinction of the stars
     """
 
     return extinction_coefficient() * (g_r - g_r_0)
 
 def extinction_u_g(u_g, u_g_0):
     """
-    :param u_g:
-    :param u_g_0:
-    :return:
+    :param u_g: value of u-g
+    :param u_g_0: value of u-g0
+    :return: the extinction of the stars
     """
 
     return extinction_coefficient() * (u_g - u_g_0)
 
 def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None):
     """
-    :param input_file:
-    :param output_file:
-    :param n_g_r:
-    :param n_u_g:
+    :param input_file: catalogue of hot stars
+    :param output_file: nex catalogue of hot stars with the new cacarteristic : the extinction
+    :param n_g_r: the number of the column (g-r) in the data file
+    :param n_u_g: the number of the column (u-g) in the data file
     :param column_separator:
     :param begining_str:
     :param comentary_char:
-    :param output_folder:
+    :param output_folder: the folder were the file is put
     :return:
     """
 
