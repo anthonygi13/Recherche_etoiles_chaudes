@@ -424,6 +424,7 @@ def recup_catalogue(position, region_name, output_file, cone_size, coordinate_sy
     :return:
     ajouter coordonnees qu on pourrait mettre a la place du nom de la region, en parametre
     mettre en commentaire tout ce que ça telecharge et le lien du site
+    preciser que c vphas+
     """
 
     assert size_unit == "deg" or size_unit == "arcmin" or size_unit == "arcsec"
@@ -510,6 +511,7 @@ def analyser_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator="
 
 
 def find_g_r_0_u_g_0(g_r, u_g):
+    #attention, probleme en bas de la courbe de la serie principale : en fait u_g c pas une fontion de g_r pck y a plusieurs antecedents : poser la question
     """
     :param g_r: value of g-r
     :param u_g: value of g-r
@@ -527,14 +529,12 @@ def find_g_r_0_u_g_0(g_r, u_g):
         if a == a_ms:
             if b == b_ms:
                 return main_sequence_points.g_r_values[i], main_sequence_points.u_g_values[i]
-            else: return None, None
         else:
             g_r_intersection = (b_ms - b) / (a - a_ms)
-            if min([main_sequence_points.u_g_values[i], main_sequence_points.u_g_values[i + 1]]) <= g_r_intersection and g_r_intersection >= max([main_sequence_points.u_g_values[i], main_sequence_points.u_g_values[i + 1]]):
-                if main_sequence(g_r_intersection) is None:
-                    return None, None
-                else:
+            if min([main_sequence_points.g_r_values[i], main_sequence_points.g_r_values[i + 1]]) <= g_r_intersection and g_r_intersection <= max([main_sequence_points.g_r_values[i], main_sequence_points.g_r_values[i + 1]]) and g_r_intersection <= g_r:
+                if main_sequence(g_r_intersection) is not None:
                     return g_r_intersection, main_sequence(g_r_intersection)
+    return None, None
 
 
 def extinction_g_r(g_r, g_r_0):
@@ -628,4 +628,61 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
     data.close()
     nfile.close()
 
-find_hot_stars("RCW49.data.txt", "truc", 6, 5, ";", begining_str="--", comentary_char="#", output_folder="RCW49 (2 arcmin)")
+
+def list_of_target(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None):
+    """
+    :param input_file:
+    :param output_file:
+    :param n_alpha:
+    :param n_delta:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :return:
+    """
+
+
+def download_gaia_data(list_of_target, output_file, output_folder=None):
+    """
+    :param list_of_target:
+    :param output_file:
+    :param output_folder:
+    :return:
+    """
+
+
+def crosscorelation_gaia(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None):
+    """
+    automatique, utilise list_of_target et download_gaia_data
+    :param input_file:
+    :param output_file:
+    :param n_alpha:
+    :param n_delta:
+    :param column_separator:
+    :param begining_str:
+    :param comentary_char:
+    :param output_folder:
+    :return:
+    """
+
+
+
+
+"""
+# plot main sequence
+
+plt.plot(Main_sequence_points().g_r_values, Main_sequence_points().u_g_values, c='black', label='Main sequence')
+# plot B3V_line
+
+plt.plot([i*-0.001 for i in range(190, 500)], [main_sequence(i*-0.001) for i in range(190, 500)], c='blue', label='Hot main sequence stars', linewidth=3)
+
+
+# graph settings
+plt.xlabel('g-r')
+plt.ylabel('u-g')
+plt.gca().invert_yaxis()
+plt.legend()
+#plt.show()
+plt.savefig("B3V_point.png")
+"""
