@@ -614,7 +614,7 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
     :param comentary_char: character which indicates, at a line begining, that this line is not part of the stars data, to allow comentaries
     :param output_folder: name of the folder where we want to put our new file output_file, if it doesn't exist it's created
                           if the folder name is not None and if the folder already exists we will considerate that the inputted data are placed into this folder
-    :return: None, create the output file described in commentaries
+    :return:
     """
 
     if output_folder is not None:
@@ -685,3 +685,135 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
 
     data.close()
     nfile.close()
+
+
+def coordinate_list(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None):
+    """
+    :param input_file:
+    :param output_file:
+    :param n_alpha:
+    :param n_delta:
+    :param column_separator: character which separates the columns in the inputted file
+    :param begining_str: string which indicates where is the data begining, it must be the last line of the header
+    :param comentary_char: character which indicates, at a line begining, that this line is not part of the stars data, to allow comentaries
+    :param output_folder: name of the folder where we want to put our new file output_file, if it doesn't exist it's created
+                          if the folder name is not None and if the folder already exists we will considerate that the inputted data are placed into this folder
+    :return: None
+    """
+
+    if output_folder is not None:
+        if not os.path.exists(output_folder):
+            os.system("mkdir '" + output_folder + "'")
+        else:
+            input_file = output_folder + "/" + input_file
+        output_file = output_folder + "/" + output_file
+
+    data = open(input_file, 'r')
+    nfile = open(output_file, "w")
+
+    if comentary_char is not None and comentary_char != "":
+        nfile.write("#RA2000 DEC2000\n")
+
+    line = data.readline()
+
+    if begining_str is not None and begining_str != "":
+        while line[0:len(begining_str)] != begining_str:
+            line = data.readline()
+
+    line = data.readline()
+
+    i = 0
+
+    while line != "":
+
+        i += 1
+        if i % 10000 == 0:
+            print(i, " lines already read")
+
+        if (comentary_char is None or comentary_char == "") or line[0] != comentary_char:
+            alpha = ""
+            delta = ""
+            column_number = 1
+            for char in line:
+                if char == column_separator:
+                    column_number += 1
+                if column_number == n_alpha:
+                    if char != " " and char != column_separator:
+                        alpha += char
+                elif column_number == n_delta:
+                    if char != " " and char != column_separator:
+                        delta += char
+                if column_number > max([n_alpha, n_delta]):
+                    break
+            nfile.write(alpha + " " + delta + "\n")
+
+        line = data.readline()
+
+    data.close()
+    nfile.close()
+
+
+def download_gaia_data(list_of_target, output_file, output_folder=None):
+    """
+    probleme : y a des etoiles en double
+    :param list_of_target:
+    :param output_file:
+    :param output_folder:
+    :return:
+    """
+
+
+def crosscorelation_gaia(input_file, output_file, n_alpha, n_delta, column_separator, begining_str=None, comentary_char=None, output_folder=None):
+    """
+    automatique, utilise list_of_target et download_gaia_data
+    probleme : etoiles en double a cause de download gaia data
+    :param input_file:
+    :param output_file:
+    :param n_alpha:
+    :param n_delta:
+    :param column_separator: character which separates the columns in the inputted file
+    :param begining_str: string which indicates where is the data begining, it must be the last line of the header
+    :param comentary_char: character which indicates, at a line begining, that this line is not part of the stars data, to allow comentaries
+    :param output_folder:
+    :return:
+    """
+
+
+#coordinate_list("data.txt", "list_of_target.txt", 1, 2, "|", begining_str="--", comentary_char="#")
+
+"""
+# plot main sequence
+
+plt.plot(Main_sequence_points().g_r_values, Main_sequence_points().u_g_values, c='black', label='Main sequence')
+
+x = np.linspace(-1, 1.5, 100)
+
+# g-r, u-g = -0.19151154707654283, -1.0798687919981462
+
+
+plt.plot((-1.0, -0.19151154707654283), (-1.0798687919981462, -1.0798687919981462), c='blue', linewidth=2, label='Hot stars u-g and g-r\nmaximum limits')
+
+plt.plot((-0.19151154707654283, -0.19151154707654283), (-1.0798687919981462,  -2), c='blue', linewidth=2)
+
+plt.plot(x, B3V_line(x), c='orange', linewidth=2, label='B3V line')
+
+plt.plot([-0.75, -0.5, -0.65], [-1.5, -1.25, -1.15], 'o', color='blue', label='Hot stars', markersize='7')
+
+#1.25, 0.5
+
+
+
+plt.plot()
+
+# graph settings
+plt.xlabel('g-r')
+plt.ylabel('u-g')
+plt.gca().invert_yaxis()
+plt.legend()
+#plt.show()
+plt.savefig("bad_detection.png")
+
+
+
+#plt.plot([i*-0.001 for i in range(190, 500)], [main_sequence(i*-0.001) for i in range(190, 500)], c='blue', label='Hot main sequence stars', linewidth=3)
+"""
