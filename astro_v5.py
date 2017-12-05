@@ -440,8 +440,6 @@ def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None
     ra_for_link = string_for_link(ra)
     dec_for_link = string_for_link(dec)
 
-    print(output_file)
-
     os.system(
         "wget 'archive.eso.org/dss/dss/image?ra=" + ra_for_link + "&dec=" + dec_for_link + "&equinox=" + coordinate_system + "&name="
         + region_name_for_link + "&x=" + str(x_size) + "&y=" + str(y_size) + "&Sky-Survey=" + survey
@@ -627,18 +625,21 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
     data = open(input_file, 'r')
     nfile = open(output_file, "w")
 
-    if comentary_char is not None and comentary_char != "":
-        nfile.write(comentary_char + str(datetime.datetime.today().year) + "/" + str(datetime.datetime.today().month) +
-                    "/" + str(datetime.datetime.today().day) + " " + str(datetime.datetime.today().hour) + "h" +
-                    str(datetime.datetime.today().minute) + " Added 3 columns at the end of the file in that "
-                                                            "order : g-r_0, u-g_0, g-r extinction, u-g extinction\n")
-
     line = data.readline()
 
     if begining_str is not None and begining_str != "":
         while line[0:len(begining_str)] != begining_str:
             nfile.write(line)
             line = data.readline()
+        nfile.write(str(datetime.today().year) + "/" + str(datetime.today().month) +
+                    "/" + str(datetime.today().day) + " " + str(datetime.today().hour) + "h" + str(datetime.today().minute) + " Added 4 columns at the end of the file in that "
+                                                            "order : g-r_0, u-g_0, g-r extinction, u-g extinction\n")
+
+    elif comentary_char is not None and comentary_char != "":
+        nfile.write(comentary_char + str(datetime.today().year) + "/" + str(datetime.today().month) +
+                    "/" + str(datetime.today().day) + " " + str(datetime.today().hour) + "h" + str(datetime.today().minute) + " Added 4 columns at the end of the file in that "
+                                                            "order : (g-r)_0, (u-g)_0, A_g extinction coefficient, A_u extinction coefficient\n")
+
 
     nfile.write(line)
     line = data.readline()
