@@ -331,6 +331,7 @@ def plot_u_g_vs_g_r(title, filename, n_g_r, n_u_g, column_separator, begining_st
     plt.gca().invert_yaxis()
     plt.legend()
     plt.show()
+    plt.clf()
 
 
 def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, begining_str=None, comentary_char=None, output_folder=None,
@@ -402,6 +403,7 @@ def save_plot(title, input_file, output_file, n_g_r, n_u_g, column_separator, be
     plt.gca().invert_yaxis()
     plt.legend()
     plt.savefig(output_file)
+    plt.clf()
 
 
 def get_sky_picture(region_name, output_file, x_size, y_size, output_folder=None, coordinate_system="J2000",
@@ -686,3 +688,8 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
 
     data.close()
     nfile.close()
+
+regions = [("RCW49", 60), ("RCW79", 30), ("NGC6357", int(1.5 * 60)), ("RCW97", 30), ("RCW98", 30), ("RCW94", 30), ("RCW95", 30), ("NGC6334", int(1.5 * 60)), ("RCW120", 30), ("RCW122", 60), ("RCW92", 30), ("RCW91", 30)]
+
+for i in regions:
+    analyse_region(i[0], i[1])
