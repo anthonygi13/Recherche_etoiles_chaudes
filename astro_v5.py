@@ -543,7 +543,7 @@ def analyse_region(region_name, cone_size, n_g_r=6, n_u_g=5, column_separator=";
               column_separator_hot_stars=column_separator, begining_str_hot_stars=begining_str, comentary_char_hot_stars=comentary_char)
     oldpwd = os.getcwd()
     os.chdir(output_folder)
-    os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -saveimage " + output_file_sky_picture + " -exit")
+    os.system("ds9 " + output_file_fits + " -regions " + output_file_reg + " -zoom to fit -saveimage " + output_file_sky_picture + " -exit")
     os.chdir(oldpwd)
 
 
@@ -692,4 +692,4 @@ def write_extinction(input_file, output_file, n_g_r, n_u_g, column_separator, be
 regions = [("RCW49", 60), ("RCW79", 30), ("NGC6357", int(1.5 * 60)), ("RCW97", 30), ("RCW98", 30), ("RCW94", 30), ("RCW95", 30), ("NGC6334", int(1.5 * 60)), ("RCW120", 30), ("RCW122", 60), ("RCW92", 30), ("RCW91", 30)]
 
 for i in regions:
-    analyse_region(i[0], i[1])
+    analyse_region(i[0], i[1], circle_size= int(i[1]/30 * 5))
